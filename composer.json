@@ -1,8 +1,8 @@
 {
-	"name": "codeigniter4/framework",
+	"name": "riyanris/nama-projek",
 	"type": "project",
-	"description": "The CodeIgniter framework v4",
-	"homepage": "https://codeigniter.com",
+	"description": "Ini adalah deskripsi project",
+	"homepage": "https://riyanris.my.id",
 	"license": "MIT",
 	"require": {
 		"php": ">=7.2",
