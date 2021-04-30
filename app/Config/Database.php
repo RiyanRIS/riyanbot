@@ -28,15 +28,15 @@ class Database extends \CodeIgniter\Database\Config
 
 	/**
 	 * The default database connection.
-	 *
+	 * mysql://b53ab9e5b9686f:734022bc@us-cdbr-east-03.cleardb.com/heroku_bc4a12a8d81ded2?reconnect=true
 	 * @var array
 	 */
 	public $default = [
 		'DSN'      => '',
 		'hostname' => 'us-cdbr-east-03.cleardb.com',
-		'username' => 'b87a5511b2a1d5',
-		'password' => '5bb788dc',
-		'database' => 'heroku_102927024839192',
+		'username' => 'b53ab9e5b9686f',
+		'password' => '734022bc',
+		'database' => 'heroku_bc4a12a8d81ded2',
 		'DBDriver' => 'MySQLi',
 		'DBPrefix' => '',
 		'pConnect' => false,
