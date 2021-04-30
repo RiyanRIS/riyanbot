@@ -1,0 +1,126 @@
+============[Date]============
+[ 2021-04-30 05:57:16  America/Chicago ] 
+==========[Response]==========
+ok:			False
+error_code:		400
+description:		Bad Request: message text is empty
+=========[Sent Data]==========
+[ref]
+ref.update_id= 110106853
+ref.message.message_id= 724
+ref.message.from.id= 780207093
+ref.message.from.is_bot= false
+ref.message.from.first_name= Kamu Jelek
+ref.message.from.username= kodokkayang
+ref.message.from.language_code= id
+ref.message.chat.id= 780207093
+ref.message.chat.first_name= Kamu Jelek
+ref.message.chat.username= kodokkayang
+ref.message.chat.type= private
+ref.message.date= 1619780235
+ref.message.text= /test
+ref.message.entities.0.offset= 0
+ref.message.entities.0.length= 5
+ref.message.entities.0.type= bot_command
+
+
+[ref]
+ref.text= 
+
+
+============[Trace]===========
+#0 /var/www/html/bottele/vendor/eleirbag89/telegrambotphp/Telegram.php(3217): TelegramErrorLogger::log()
+#1 /var/www/html/bottele/vendor/eleirbag89/telegrambotphp/Telegram.php(111): Telegram->sendAPIRequest()
+#2 /var/www/html/bottele/vendor/eleirbag89/telegrambotphp/Telegram.php(196): Telegram->endpoint()
+#3 /var/www/html/bottele/app/Controllers/Bot.php(52): Telegram->sendMessage()
+#4 /var/www/html/bottele/system/CodeIgniter.php(921): App\Controllers\Bot->index()
+#5 /var/www/html/bottele/system/CodeIgniter.php(407): CodeIgniter\CodeIgniter->runController()
+#6 /var/www/html/bottele/system/CodeIgniter.php(315): CodeIgniter\CodeIgniter->handleRequest()
+#7 /var/www/html/bottele/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#8 /var/www/html/bottele/system/Commands/Server/rewrite.php(34): require_once('/var/www/html/b...')
+#9 {main}
+
+============[Date]============
+[ 2021-04-30 06:00:02  America/Chicago ] 
+==========[Response]==========
+ok:			False
+error_code:		400
+description:		Bad Request: message text is empty
+=========[Sent Data]==========
+[ref]
+ref.update_id= 110106854
+ref.message.message_id= 725
+ref.message.from.id= 780207093
+ref.message.from.is_bot= false
+ref.message.from.first_name= Kamu Jelek
+ref.message.from.username= kodokkayang
+ref.message.from.language_code= id
+ref.message.chat.id= 780207093
+ref.message.chat.first_name= Kamu Jelek
+ref.message.chat.username= kodokkayang
+ref.message.chat.type= private
+ref.message.date= 1619780401
+ref.message.text= /test
+ref.message.entities.0.offset= 0
+ref.message.entities.0.length= 5
+ref.message.entities.0.type= bot_command
+
+
+[ref]
+ref.text= 
+
+
+============[Trace]===========
+#0 /var/www/html/bottele/vendor/eleirbag89/telegrambotphp/Telegram.php(3217): TelegramErrorLogger::log()
+#1 /var/www/html/bottele/vendor/eleirbag89/telegrambotphp/Telegram.php(111): Telegram->sendAPIRequest()
+#2 /var/www/html/bottele/vendor/eleirbag89/telegrambotphp/Telegram.php(196): Telegram->endpoint()
+#3 /var/www/html/bottele/app/Controllers/Bot.php(53): Telegram->sendMessage()
+#4 /var/www/html/bottele/system/CodeIgniter.php(921): App\Controllers\Bot->index()
+#5 /var/www/html/bottele/system/CodeIgniter.php(407): CodeIgniter\CodeIgniter->runController()
+#6 /var/www/html/bottele/system/CodeIgniter.php(315): CodeIgniter\CodeIgniter->handleRequest()
+#7 /var/www/html/bottele/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#8 /var/www/html/bottele/system/Commands/Server/rewrite.php(34): require_once('/var/www/html/b...')
+#9 {main}
+
+============[Date]============
+[ 2021-04-30 06:00:52  America/Chicago ] 
+==========[Response]==========
+ok:			False
+error_code:		400
+description:		Bad Request: message text is empty
+=========[Sent Data]==========
+[ref]
+ref.update_id= 110106855
+ref.message.message_id= 726
+ref.message.from.id= 780207093
+ref.message.from.is_bot= false
+ref.message.from.first_name= Kamu Jelek
+ref.message.from.username= kodokkayang
+ref.message.from.language_code= id
+ref.message.chat.id= 780207093
+ref.message.chat.first_name= Kamu Jelek
+ref.message.chat.username= kodokkayang
+ref.message.chat.type= private
+ref.message.date= 1619780452
+ref.message.text= /test
+ref.message.entities.0.offset= 0
+ref.message.entities.0.length= 5
+ref.message.entities.0.type= bot_command
+
+
+[ref]
+ref.text= 
+
+
+============[Trace]===========
+#0 /var/www/html/bottele/vendor/eleirbag89/telegrambotphp/Telegram.php(3217): TelegramErrorLogger::log()
+#1 /var/www/html/bottele/vendor/eleirbag89/telegrambotphp/Telegram.php(111): Telegram->sendAPIRequest()
+#2 /var/www/html/bottele/vendor/eleirbag89/telegrambotphp/Telegram.php(196): Telegram->endpoint()
+#3 /var/www/html/bottele/app/Controllers/Bot.php(48): Telegram->sendMessage()
+#4 /var/www/html/bottele/system/CodeIgniter.php(921): App\Controllers\Bot->index()
+#5 /var/www/html/bottele/system/CodeIgniter.php(407): CodeIgniter\CodeIgniter->runController()
+#6 /var/www/html/bottele/system/CodeIgniter.php(315): CodeIgniter\CodeIgniter->handleRequest()
+#7 /var/www/html/bottele/public/index.php(45): CodeIgniter\CodeIgniter->run()
+#8 /var/www/html/bottele/system/Commands/Server/rewrite.php(34): require_once('/var/www/html/b...')
+#9 {main}
+

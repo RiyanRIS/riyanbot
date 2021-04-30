@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Controllers;
+
 use CodeIgniter\Controller;
 
 class BaseController extends Controller
@@ -22,8 +24,7 @@ class BaseController extends Controller
 		$this->validation = \Config\Services::validation();
 
 		// LOAD MODEL
-		$this->users = new UsersModel();
-		$this->kategori = new KategoriModel();
+		// $this->users = new UsersModel();
+		// $this->kategori = new KategoriModel();
 	}
-
 }
