@@ -110,14 +110,14 @@ class Bot extends BaseController
     date_default_timezone_set('Asia/Jakarta');
     $pesan = "Ini adalah pukul " . date("H:i") . " WIB.";
 
-    echo $pesan;
+    // echo $pesan;
 
-    // $data = $this->users->findAll();
-    // foreach ($data as $key) {
-    //   $content = ['chat_id' => $key['chatid'], 'text' => $pesan];
-    //   $this->bot->sendMessage($content);
-    //   $this->simpan_pesan($pesan, "kirim", $key['chatid']);
-    // }
+    $data = $this->users->findAll();
+    foreach ($data as $key) {
+      $content = ['chat_id' => $key['chatid'], 'text' => $pesan];
+      $this->bot->sendMessage($content);
+      $this->simpan_pesan($pesan, "kirim", $key['chatid']);
+    }
   }
 
   function cek_pengguna()
