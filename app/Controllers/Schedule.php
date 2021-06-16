@@ -36,6 +36,36 @@ class Schedule extends Controller
     }
   }
 
+  function whatsapp()
+  {
+    $pesan = "Ini adalah pukul " . date("H:i") . " WIB.";
+    $data = array(
+      "args" => array(
+        "to" => "6289677249060@c.us",
+        "content" => $pesan
+      )
+    );
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, 'https://riyanapiwa.herokuapp.com/sendText');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+    $headers = array();
+    $headers[] = 'Accept: */*';
+    $headers[] = 'Api_key: t]z-8Dkyf^nD7iZB9GJI{T$K1[S[s?';
+    $headers[] = 'Content-Type: application/json';
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    $result = curl_exec($ch);
+    if (curl_errno($ch)) {
+      echo 'Error:' . curl_error($ch);
+    }
+    curl_close($ch);
+  }
+
   function simpan_pesan($pesan, $status = 'kirim', $chatid = false)
   {
     $data = [

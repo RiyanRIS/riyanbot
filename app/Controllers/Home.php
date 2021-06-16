@@ -67,6 +67,4 @@ class Home extends BaseController
 		}
 		curl_close($ch);
 	}
-	//--------------------------------------------------------------------
-
 }
