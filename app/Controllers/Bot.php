@@ -24,18 +24,22 @@ class Bot extends BaseController
 
   public function index()
   {
+    echo "<title>Server Bot Telegram 🇮🇩</title>Server Bot Telegram 🇮🇩</br></br>❤️ <a target='_blank' href='https://github.com/Eleirbag89/TelegramBotPHP'>https://github.com/Eleirbag89/TelegramBotPHP</a></br>🤖 <a target='_blank' href='https://t.me/riyantesBot'>@riyantesBot</a></br></br>Enjoy..😃";
+  }
+
+  public function bot()
+  {
     $chatid = $this->bot->ChatID();
     $text = $this->bot->Text();
+
+    $this->simpan_pesan($text, 'terima');
+    $this->cek_pengguna();
 
     $ada_status = $this->chat_status->ada($chatid);
     if (count($ada_status) > 0) {
       $nama_status = $ada_status[0]['nama'];
       $id_status = $ada_status[0]['id'];
     }
-
-    $this->simpan_pesan($text, 'terima');
-
-    $this->cek_pengguna();
 
     if (!empty($nama_status) && !empty($text)) {
       if ($nama_status == "masukkan nama") {
@@ -102,21 +106,6 @@ class Bot extends BaseController
       $content = ['chat_id' => $chatid, 'text' => $pesan];
       $this->bot->sendMessage($content);
       $this->simpan_pesan($pesan);
-    }
-  }
-
-  public function lima()
-  {
-    date_default_timezone_set('Asia/Jakarta');
-    $pesan = "Ini adalah pukul " . date("H:i") . " WIB.";
-
-    // echo $pesan;
-
-    $data = $this->users->findAll();
-    foreach ($data as $key) {
-      $content = ['chat_id' => $key['chatid'], 'text' => $pesan];
-      $this->bot->sendMessage($content);
-      $this->simpan_pesan($pesan, "kirim", $key['chatid']);
     }
   }
 

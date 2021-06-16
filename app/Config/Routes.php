@@ -16,7 +16,8 @@ $routes->set404Override();
 $routes->setAutoRoute(true);
 
 $routes->get('/', 'Bot::index');
-$routes->get('/lima', 'Bot::lima');
+$routes->get('/bot', 'Bot::index');
+$routes->post('/bot', 'Bot::bot');
 
 if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
 	require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
