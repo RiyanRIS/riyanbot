@@ -24,9 +24,8 @@ class Schedule extends Controller
     $this->bot = new \Telegram($this->bot_token);
   }
 
-  function jamsholat()
+  public function index()
   {
-    date_default_timezone_set('Asia/Jakarta');
     $pesan = "Ini adalah pukul " . date("H:i") . " WIB.";
 
     $data = $this->users->findAll();
