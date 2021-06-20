@@ -19,10 +19,10 @@ $routes->get('/', 'Bot::index');
 $routes->get('/bot', 'Bot::index');
 $routes->post('/bot', 'Bot::bot');
 
-$routes->get('/wa', 'Home::index');
-$routes->post('/wa', 'Home::index');
+$routes->add('/wa', 'Wa::index');
+$routes->post('/wa/autoresponse', 'Wa::autoresponn');
 // $routes->get('/tes', 'Home::sendMsg');
-$routes->get('/tes/(:any)/(:any)', 'Home::sendMsg/$1/$2');
+$routes->get('/tes/(:any)/(:any)', 'Wa::sendMsg/$1/$2');
 
 
 if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {

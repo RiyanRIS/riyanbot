@@ -6,7 +6,12 @@ class Wa extends BaseController
 {
 
 	public function index(){
-		view("wa/index");
+    if($_POST){
+      $notujuan = $_POST['notujuan']."@c.us";
+      $this->sendMsg($notujuan, $_POST['pesan']);
+    }
+
+    return view("wa/index");
 	}
 
 	public function autoresponn()
@@ -39,8 +44,13 @@ class Wa extends BaseController
 				die();
 			}
 
-			$pesan = "Maaf, kami tidak paham maksut kamu.\nGunakan \help untuk melihat bantuan.";
-			$this->sendMsg($no, $pesan);
+			// $pesan = "Maaf, kami tidak paham maksut kamu.\nGunakan \help untuk melihat bantuan.";
+			$url = "https://fdciabdul.tech/api/ayla/?pesan=".urlencode($text);
+
+      $response = file_get_contents($url);
+      $response = json_decode($response);
+
+      $this->sendMsg($no, $response->jawab);
 		}
 	}
 
