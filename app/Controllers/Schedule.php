@@ -42,6 +42,31 @@ class Schedule extends Controller
 
   function whatsapp()
   {
+    $ch = curl_init();
+
+		curl_setopt($ch, CURLOPT_URL, 'https://riyanapiwa.herokuapp.com/listWebhooks');
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, "{}");
+
+		$headers = array();
+		$headers[] = 'Accept: */*';
+		$headers[] = 'Api_key: t]z-8Dkyf^nD7iZB9GJI{T$K1[S[s?';
+		$headers[] = 'Content-Type: application/json';
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+		$result = curl_exec($ch);
+		if (curl_errno($ch)) {
+			echo 'Error:' . curl_error($ch);
+		}
+		curl_close($ch);
+		$result = json_decode($result, true);
+
+		if(count($result['response'])==0){
+			$this->regWebhook();
+		}
+
+    // KIRIM QUOTES
     $str = file_get_contents('https://gist.githubusercontent.com/RiyanRIS/2514f78ae08f99309b1b561058ff0413/raw/712797e95a086d6dcebcae3688b51947734c7ebf/quotes.json');
 		$json = json_decode($str, true); // decode the JSON into an associative array
 
@@ -74,6 +99,27 @@ class Schedule extends Controller
     }
     curl_close($ch);
   }
+
+  public function regWebhook(){
+		$ch = curl_init();
+
+		curl_setopt($ch, CURLOPT_URL, 'https://riyanapiwa.herokuapp.com/registerWebhook');
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, "{\"args\":{\"url\":\"https://riyanbot.herokuapp.com/wa/autoresponse\",\"events\":\"onMessage\",\"requestConfig\":\"POST\",\"concurrency\":5}}");
+
+		$headers = array();
+		$headers[] = 'Accept: */*';
+		$headers[] = 'Api_key: t]z-8Dkyf^nD7iZB9GJI{T$K1[S[s?';
+		$headers[] = 'Content-Type: application/json';
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+		$result = curl_exec($ch);
+		if (curl_errno($ch)) {
+				echo 'Error:' . curl_error($ch);
+		}
+		curl_close($ch);
+	}
 
   function simpan_pesan($pesan, $status = 'kirim', $chatid = false)
   {

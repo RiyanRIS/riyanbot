@@ -6,12 +6,13 @@ class Wa extends BaseController
 {
 
 	public function index(){
-    if($_POST){
-      $notujuan = $_POST['notujuan']."@c.us";
-      $this->sendMsg($notujuan, $_POST['pesan']);
-    }
+    
+		// if($_POST){
+    //   $notujuan = $_POST['notujuan']."@c.us";
+    //   $this->sendMsg($notujuan, $_POST['pesan']);
+    // }
 
-    return view("wa/index");
+    // return view("wa/index");
 	}
 
 	public function autoresponn()
@@ -82,4 +83,6 @@ class Wa extends BaseController
 		}
 		curl_close($ch);
 	}
+
+	
 }
