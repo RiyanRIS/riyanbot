@@ -26,7 +26,7 @@ class Schedule extends Controller
 
   public function index()
   {
-    $str = file_get_contents('https://raw.githubusercontent.com/lakuapik/quotes-indonesia/master/raw/quotes.json');
+    $str = file_get_contents('https://gist.githubusercontent.com/RiyanRIS/2514f78ae08f99309b1b561058ff0413/raw/712797e95a086d6dcebcae3688b51947734c7ebf/quotes.json');
 		$json = json_decode($str, true); // decode the JSON into an associative array
 
 		$r = rand(1,306);
@@ -42,12 +42,12 @@ class Schedule extends Controller
 
   function whatsapp()
   {
-    $str = file_get_contents('https://raw.githubusercontent.com/lakuapik/quotes-indonesia/master/raw/quotes.json');
+    $str = file_get_contents('https://gist.githubusercontent.com/RiyanRIS/2514f78ae08f99309b1b561058ff0413/raw/712797e95a086d6dcebcae3688b51947734c7ebf/quotes.json');
 		$json = json_decode($str, true); // decode the JSON into an associative array
 
 		$r = rand(1,306);
     $pesan = $json[$r]['quote']."\n\n~ ".$json[$r]['by'];
-    
+
     $data = array(
       "args" => array(
         "to" => "6289677249060@c.us",
