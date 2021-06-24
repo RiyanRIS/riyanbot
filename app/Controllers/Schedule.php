@@ -26,7 +26,11 @@ class Schedule extends Controller
 
   public function index()
   {
-    $pesan = "Ini adalah pukul " . date("H:i") . " WIB.";
+    $str = file_get_contents('https://raw.githubusercontent.com/lakuapik/quotes-indonesia/master/raw/quotes.json');
+		$json = json_decode($str, true); // decode the JSON into an associative array
+
+		$r = rand(1,306);
+    $pesan = $json[$r]['quote']."\n\n~ ".$json[$r]['by'];
 
     $data = $this->users->findAll();
     foreach ($data as $key) {
@@ -38,7 +42,12 @@ class Schedule extends Controller
 
   function whatsapp()
   {
-    $pesan = "Ini adalah pukul " . date("H:i") . " WIB.";
+    $str = file_get_contents('https://raw.githubusercontent.com/lakuapik/quotes-indonesia/master/raw/quotes.json');
+		$json = json_decode($str, true); // decode the JSON into an associative array
+
+		$r = rand(1,306);
+    $pesan = $json[$r]['quote']."\n\n~ ".$json[$r]['by'];
+    
     $data = array(
       "args" => array(
         "to" => "6289677249060@c.us",

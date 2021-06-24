@@ -6,6 +6,13 @@ class Wa extends BaseController
 {
 
 	public function index(){
+
+	
+		// foreach ($json['daily']['data'] as $field => $value) {
+    // 	echo $field."--".$value;
+		// }
+		die();
+
     if($_POST){
       $notujuan = $_POST['notujuan']."@c.us";
       $this->sendMsg($notujuan, $_POST['pesan']);
