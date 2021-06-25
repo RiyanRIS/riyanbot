@@ -26,7 +26,7 @@ class Schedule extends Controller
 
   public function index()
   {
-    $str = file_get_contents('https://gist.githubusercontent.com/RiyanRIS/2514f78ae08f99309b1b561058ff0413/raw/712797e95a086d6dcebcae3688b51947734c7ebf/quotes.json');
+    $str = file_get_contents('https://gist.githubusercontent.com/RiyanRIS/2514f78ae08f99309b1b561058ff0413/raw/4b55943b604726efa9c8080510392890555dda1d/quotes.json');
 		$json = json_decode($str, true); // decode the JSON into an associative array
 
 		$r = rand(1, count($json));
@@ -67,7 +67,7 @@ class Schedule extends Controller
 		}
 
     // KIRIM QUOTES
-    $str = file_get_contents('https://gist.githubusercontent.com/RiyanRIS/2514f78ae08f99309b1b561058ff0413/raw/712797e95a086d6dcebcae3688b51947734c7ebf/quotes.json');
+    $str = file_get_contents('https://gist.githubusercontent.com/RiyanRIS/2514f78ae08f99309b1b561058ff0413/raw/4b55943b604726efa9c8080510392890555dda1d/quotes.json');
 		$json = json_decode($str, true); // decode the JSON into an associative array
 
 		$r = rand(1, count($json));

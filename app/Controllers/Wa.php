@@ -6,7 +6,13 @@ class Wa extends BaseController
 {
 
 	public function index(){
-    
+    $str = file_get_contents('https://gist.githubusercontent.com/RiyanRIS/2514f78ae08f99309b1b561058ff0413/raw/4b55943b604726efa9c8080510392890555dda1d/quotes.json');
+		$json = json_decode($str, true); // decode the JSON into an associative array
+
+		$r = rand(1, count($json));
+    $pesan = $json[$r]['quote']."\n\n~ ".$json[$r]['by'];
+
+		die();
 		if($_POST){
       $notujuan = $_POST['notujuan']."@c.us";
       $this->sendMsg($notujuan, $_POST['pesan']);
