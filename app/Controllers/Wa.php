@@ -3,22 +3,69 @@
 namespace App\Controllers;
 
 use \App\Models\WaSpamModel;
+use \App\Models\SettingModel;
 
 class Wa extends BaseController
 {
 	protected $wa_spam;
+	protected $setting;
 
 	public function index(){
 		echo "<link id='favicon' rel='icon' type='image/png' href='https://i.ibb.co/BzNVj8K/logo.png'><title>Server Bot WhatsApp 🇮🇩</title>Server Bot WhatsApp 🇮🇩</br></br>❤️ <a target='_blank' href='https://github.com/open-wa/wa-automate-nodejs'>https://github.com/open-wa/wa-automate-nodejs</a></br>🤖 <a target='_blank' href='https://wa.me/13156967238'>https://wa.me/13156967238</a></br></br>Enjoy..😃";
-  
+	}
+
+	public function statusSpam(){
+		helper('form');
+
+		$this->wa_spam = new WaSpamModel();
+		$this->setting = new SettingModel();
+
+		$data_wa = $this->wa_spam->findAll();
+		$setting = $this->setting->findAll();
+
+		$last = count($data_wa)-1;
+		$awal = $data_wa[$last]['no'];
+
+		$str = \file_get_contents("kirim_300621.txt");
+		$str = explode(".", $str);
+		$total = count($str);
+
+		echo "<h2>Status Spam Whatsapp</h2>Pesan tersampaikan: <b>".$awal." pesan</b> dari total ".$total." pesan<br><br>";
+
+		if($setting[0]['statuss'] == 1){
+			echo form_open(\uri_string());
+			echo form_hidden('statuss', '0');
+			echo "\nStatus: 🟢Active... ";
+			echo form_submit('submit', 'Nonaktifkan');
+			echo form_close();
+		}else{
+			echo form_open(\uri_string());
+			echo form_hidden('statuss', '1');
+			echo "\nStatus: 🔴Deactive... ";
+			echo form_submit('submit', 'Aktifkan');
+			echo form_close();
+		}
+
+	}
+
+	public function getStatusSpam(){
+		$this->setting = new SettingModel();
+
+		$data = ['statuss' => $this->request->getPost("statuss")];
+		if($this->setting->update('1', $data)){
+			return redirect()->to(site_url("wa/cek"));
+		}else{
+			echo "Something went wrong...";
+		}
+
 	}
 
 	public function getPhoneOrang(){
 		// Starting clock time in seconds
 		$start_time = microtime(true);
 
-		$no = 628981530000; $res = array();
-		for($i = 1; $i <= 590; $i++){
+		$no = 628981530600; $res = array();
+		for($i = 1; $i <= 499; $i++){
 			$no++;
 			$data = array(
 				"args" => array(

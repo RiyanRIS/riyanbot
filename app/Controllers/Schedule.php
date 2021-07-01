@@ -6,6 +6,7 @@ use CodeIgniter\Controller;
 
 use \App\Models\TelUsersModel;
 use \App\Models\WaSpamModel;
+use \App\Models\SettingModel;
 use \App\Models\TelChatModel;
 use \App\Models\TelChatStatusModel;
 
@@ -16,6 +17,7 @@ class Schedule extends Controller
   protected $users;
   protected $chat;
   protected $wa_spam;
+  protected $setting;
   protected $chat_status;
 
   public function __construct()
@@ -142,8 +144,16 @@ class Schedule extends Controller
 
   public function spamChat()
   {
+    $this->setting = new SettingModel();
     $this->wa_spam = new WaSpamModel();
+
 		$data_wa = $this->wa_spam->findAll();
+		$setting = $this->setting->findAll();
+
+    // JIKA STATUS SPAM DEACTIVE MAKA KELUAR FUNCTION
+    if($setting[0]['statuss'] == 0){
+      return true;
+    }
 
 		// Starting clock time in seconds
 		$start_time = microtime(true);
@@ -155,12 +165,14 @@ class Schedule extends Controller
 		
 		$last = count($data_wa)-1;
 		$awal = $data_wa[$last]['no'];
-		$ahir = $awal + 10;
+		$ahir = $awal + 3;
+
+    // Jika yang akan dikirim sudah mentok maka keluar function
+    if($ahir >= count($str)){ return true; }
 
 		foreach ($str as $key) {
-      if($awal >= 500){ break; }
 
-			$no++;
+      $no++;
 
 			if($no <= $awal || $no > $ahir){
 			}else{

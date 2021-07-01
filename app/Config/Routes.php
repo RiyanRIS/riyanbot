@@ -20,6 +20,9 @@ $routes->get('/bot', 'Bot::index');
 $routes->post('/bot', 'Bot::bot');
 
 $routes->add('/wa', 'Wa::index');
+$routes->get('/wa/cek', 'Wa::statusSpam');
+$routes->post('/wa/cek', 'Wa::getStatusSpam');
+
 $routes->get('/carinomor', 'Wa::getPhoneOrang');
 $routes->post('/wa/autoresponse', 'Wa::autoresponn');
 // $routes->get('/tes', 'Home::sendMsg');
