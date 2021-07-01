@@ -2,23 +2,67 @@
 
 namespace App\Controllers;
 
+use \App\Models\WaSpamModel;
+
 class Wa extends BaseController
 {
+	protected $wa_spam;
 
 	public function index(){
-    $str = file_get_contents('https://gist.githubusercontent.com/RiyanRIS/2514f78ae08f99309b1b561058ff0413/raw/4b55943b604726efa9c8080510392890555dda1d/quotes.json');
-		$json = json_decode($str, true); // decode the JSON into an associative array
+		echo "<link id='favicon' rel='icon' type='image/png' href='https://i.ibb.co/BzNVj8K/logo.png'><title>Server Bot WhatsApp 🇮🇩</title>Server Bot WhatsApp 🇮🇩</br></br>❤️ <a target='_blank' href='https://github.com/open-wa/wa-automate-nodejs'>https://github.com/open-wa/wa-automate-nodejs</a></br>🤖 <a target='_blank' href='https://wa.me/13156967238'>https://wa.me/13156967238</a></br></br>Enjoy..😃";
+  
+	}
 
-		$r = rand(1, count($json));
-    $pesan = $json[$r]['quote']."\n\n~ ".$json[$r]['by'];
+	public function getPhoneOrang(){
+		// Starting clock time in seconds
+		$start_time = microtime(true);
 
-		die();
-		if($_POST){
-      $notujuan = $_POST['notujuan']."@c.us";
-      $this->sendMsg($notujuan, $_POST['pesan']);
-    }
+		$no = 628981530000; $res = array();
+		for($i = 1; $i <= 590; $i++){
+			$no++;
+			$data = array(
+				"args" => array(
+					"contactId" => $no."@c.us",
+				)
+			);
 
-    return view("wa/index");
+			$ch = curl_init();
+
+			curl_setopt($ch, CURLOPT_URL, 'https://riyanapiwa.herokuapp.com/checkNumberStatus');
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_POST, 1);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+			$headers = array();
+			$headers[] = 'Accept: */*';
+			$headers[] = 'Api_key: t]z-8Dkyf^nD7iZB9GJI{T$K1[S[s?';
+			$headers[] = 'Content-Type: application/json';
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+			$result = curl_exec($ch);
+			if (curl_errno($ch)) {
+				echo 'Error:' . curl_error($ch);
+			}
+			curl_close($ch);
+
+			$result = json_decode($result, true);
+
+			if($result['response']['canReceiveMessage'] == true && $result['response']['numberExists'] == true){
+				$file = 'phone.txt';
+				$current = file_get_contents($file);
+				$current .= $no.",".$no.",* myContacts,Mobile,".$no."\n";
+				file_put_contents($file, $current);
+			}
+		}
+			
+		// End clock time in seconds
+		$end_time = microtime(true);
+			
+		// Calculate script execution time
+		$execution_time = ($end_time - $start_time);
+			
+		echo "<pre>\n\nExecution time of script = ".$execution_time." sec\n\n";
+		echo "done...</pre>";
 	}
 
 	public function autoresponn()

@@ -20,10 +20,10 @@ $routes->get('/bot', 'Bot::index');
 $routes->post('/bot', 'Bot::bot');
 
 $routes->add('/wa', 'Wa::index');
+$routes->get('/carinomor', 'Wa::getPhoneOrang');
 $routes->post('/wa/autoresponse', 'Wa::autoresponn');
 // $routes->get('/tes', 'Home::sendMsg');
 $routes->get('/tes/(:any)/(:any)', 'Wa::sendMsg/$1/$2');
-
 
 if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
 	require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
