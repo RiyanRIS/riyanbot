@@ -19,6 +19,7 @@ $routes->get('/', 'Bot::index');
 $routes->get('/bot', 'Bot::index');
 $routes->post('/bot', 'Bot::bot');
 
+$routes->get('/tes', 'Wa::tes');
 $routes->add('/wa', 'Wa::index');
 $routes->get('/wa/cek', 'Wa::statusSpam');
 $routes->post('/wa/cek', 'Wa::getStatusSpam');

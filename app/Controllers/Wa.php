@@ -10,11 +10,37 @@ class Wa extends BaseController
 	protected $wa_spam;
 	protected $setting;
 
+	function savePastebin($text, $name){
+		$name ?: time();
+		$api_dev_key 			= 'acd7643f900129370d7d3e9d584aff27'; // your api_developer_key
+		$api_paste_code 		= $text; // your paste text
+		$api_paste_private 		= '1'; // 0=public 1=unlisted 2=private
+		$api_paste_name			= $name.'.txt'; // name or title of your paste
+		$api_paste_expire_date 		= 'N';
+		$api_paste_format 		= 'text';
+		$api_user_key 			= '7af152ae1b4fdd014dbbfe0db84df47c'; // if an invalid or expired api_user_key is used, an error will spawn. If no api_user_key is used, a guest paste will be created
+		$api_paste_name			= urlencode($api_paste_name);
+		$api_paste_code			= urlencode($api_paste_code);
+
+		$url 				= 'https://pastebin.com/api/api_post.php';
+		$ch 				= curl_init($url);
+
+		curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, 'api_option=paste&api_user_key='.$api_user_key.'&api_paste_private='.$api_paste_private.'&api_paste_name='.$api_paste_name.'&api_paste_expire_date='.$api_paste_expire_date.'&api_paste_format='.$api_paste_format.'&api_dev_key='.$api_dev_key.'&api_paste_code='.$api_paste_code.'');
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_VERBOSE, 1);
+		curl_setopt($ch, CURLOPT_NOBODY, 0);
+
+		$response  			= curl_exec($ch);
+		return $response;
+	}
+
 	public function index(){
 		echo "<link id='favicon' rel='icon' type='image/png' href='https://i.ibb.co/BzNVj8K/logo.png'><title>Server Bot WhatsApp 🇮🇩</title>Server Bot WhatsApp 🇮🇩</br></br>❤️ <a target='_blank' href='https://github.com/open-wa/wa-automate-nodejs'>https://github.com/open-wa/wa-automate-nodejs</a></br>🤖 <a target='_blank' href='https://wa.me/16502390040'>https://wa.me/16502390040</a></br></br>Enjoy..😃";
 	}
 
-	public function statusSpam(){
+	public function statusSpam()
+	{
 		helper('form');
 
 		$this->wa_spam = new WaSpamModel();
@@ -48,7 +74,8 @@ class Wa extends BaseController
 
 	}
 
-	public function getStatusSpam(){
+	public function getStatusSpam()
+	{
 		$this->setting = new SettingModel();
 
 		$data = ['statuss' => $this->request->getPost("statuss")];
@@ -60,13 +87,24 @@ class Wa extends BaseController
 
 	}
 
-	public function getPhoneOrang(){
+	public function getPhoneOrang($no, $jum){
 		// Starting clock time in seconds
 		$start_time = microtime(true);
 
-		$no = 628981530600; $res = array();
-		for($i = 1; $i <= 499; $i++){
+		$a = $b = 0; $current = "";
+
+		for($i = 1; $i <= $jum; $i++){
+
+			if($i % 100 == 0){ 
+				$pesan = "*[INFO]* \n\n$i dari $jum\nDitemukan ".$b." nomor.";
+				$this->sendMsg("6289677249060@c.us", $pesan); 
+				
+				$b = 0;
+				sleep(5);
+			}
+
 			$no++;
+
 			$data = array(
 				"args" => array(
 					"contactId" => $no."@c.us",
@@ -85,31 +123,37 @@ class Wa extends BaseController
 			$headers[] = 'Api_key: t]z-8Dkyf^nD7iZB9GJI{T$K1[S[s?';
 			$headers[] = 'Content-Type: application/json';
 			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+			
+			try {
+				$result = curl_exec($ch);
+			} catch (\Throwable $th) {
+				//throw $th;
+			}
 
-			$result = curl_exec($ch);
 			if (curl_errno($ch)) {
 				echo 'Error:' . curl_error($ch);
 			}
+
 			curl_close($ch);
 
 			$result = json_decode($result, true);
 
-			if($result['response']['canReceiveMessage'] == true && $result['response']['numberExists'] == true){
-				$file = 'phone.txt';
-				$current = file_get_contents($file);
-				$current .= $no.",".$no.",* myContacts,Mobile,".$no."\n";
-				file_put_contents($file, $current);
+			if(@$result['response']['canReceiveMessage'] == true && @$result['response']['numberExists'] == true){
+				$current .= $no.",".$no.",* myContacts,Mobile,+".$no."\n";
+				$a++; $b++;
 			}
 		}
+
+		$link = $this->savePastebin($current, $no);
 			
 		// End clock time in seconds
 		$end_time = microtime(true);
 			
 		// Calculate script execution time
 		$execution_time = ($end_time - $start_time);
-			
-		echo "<pre>\n\nExecution time of script = ".$execution_time." sec\n\n";
-		echo "done...</pre>";
+
+		$pesan = "*Tugas selesai..* \n\nUntuk nomor $no total ditemukan ".$a." nomor dalam waktu ".$execution_time." detik.\nHasil: $link";
+		$this->sendMsg("6289677249060@c.us", $pesan);
 	}
 
 	public function autoresponn()
@@ -122,33 +166,35 @@ class Wa extends BaseController
 			$no = $data['data']['from'];
 			$text = $data['data']['body'];
 
-			$file = 'log.txt';
-			$current = file_get_contents($file);
-			$current .= time() . "\t" . $no . "\t" . $text .  "\n";
-			file_put_contents($file, $current);
+			$text = strtolower($text);
 
-			if ($text == '/daftar') {
-				$pesan = "Baiklah, pertama-tama kami butuh nama kamu..";
-				$this->sendMsg($no, $pesan);
+			$text = \explode(" ", $text);
 
-				$pesan = "Silahkan masukkan nama kamu";
-				$this->sendMsg($no, $pesan);
-				die();
+			if ($text[0] == 'getno') {
+				if(isset($text[1])){
+					
+					$total = 1000;
+					$nomor = $text[1];
+
+					if(isset($text[2])){
+						$total = $text[2];
+						$pesan = "Oke, crawl untuk no $nomor sebanyak ".$total."x sedang kami proses.";
+						$this->sendMsg($no, $pesan);
+					}else{
+						$pesan = "Oke, crawl untuk no $nomor sebanyak ".$total."x sedang kami proses.";
+						$this->sendMsg($no, $pesan);
+					}
+					$this->getPhoneOrang($text[1], $total);
+					die();
+				}else{
+					$pesan = "Harap gunakan format \"getno [nomor] [perulangan]\"";
+					$this->sendMsg($no, $pesan);
+					die();
+				}
+				
 			}
 
-			if ($text == '/test') {
-				$pesan = "Pesan telah kami terima";
-				$this->sendMsg($no, $pesan);
-				die();
-			}
-
-			// $pesan = "Maaf, kami tidak paham maksut kamu.\nGunakan \help untuk melihat bantuan.";
-			$url = "https://fdciabdul.tech/api/ayla/?pesan=".urlencode($text);
-
-      $response = file_get_contents($url);
-      $response = json_decode($response);
-
-      $this->sendMsg($no, $response->jawab);
+      $this->sendMsg($no, "hai");
 		}
 	}
 
