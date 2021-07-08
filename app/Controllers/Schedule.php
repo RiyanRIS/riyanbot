@@ -2,15 +2,13 @@
 
 namespace App\Controllers;
 
-use CodeIgniter\Controller;
-
 use \App\Models\TelUsersModel;
 use \App\Models\WaSpamModel;
 use \App\Models\SettingModel;
 use \App\Models\TelChatModel;
 use \App\Models\TelChatStatusModel;
 
-class Schedule extends Controller
+class Schedule extends BaseController
 {
   protected $bot;
   protected $bot_token = '1369088735:AAGkBavShqR7Lt3CFfv_QLkvr6S2n45CvBU';
@@ -22,6 +20,7 @@ class Schedule extends Controller
 
   public function __construct()
   {
+		$this->setting = new SettingModel();
     $this->users = new TelUsersModel();
     $this->chat = new TelChatModel();
     $this->wa_spam = new WaSpamModel();
@@ -53,48 +52,32 @@ class Schedule extends Controller
     // JIKA SET SERVER WEBHOOK 0 MAKA REGISTER WEBHOOK
 		if(count($res['response'])==0){
 			$this->regWebhook();
+			$this->sendMsg($this->nomorku, "Webhook updated");
 		}
 
     // KIRIM QUOTES
     $this->kirimQuotes();
 
     // SPAM CHAT
-    $this->spamChat();
+    // $this->spamChat();
   }
 
   public function kirimQuotes()
   {
+		$setting = $this->setting->findAll();
+    // JIKA STATUS SPAM DEACTIVE MAKA KELUAR FUNCTION
+    if($setting[0]['statuss'] == 0){
+      return true;
+    }
+
     $str = file_get_contents('https://gist.githubusercontent.com/RiyanRIS/2514f78ae08f99309b1b561058ff0413/raw/4b55943b604726efa9c8080510392890555dda1d/quotes.json');
 		$json = json_decode($str, true); // decode the JSON into an associative array
 
 		$r = rand(1, count($json));
     $pesan = $json[$r]['quote']."\n\n~ ".$json[$r]['by'];
 
-    $data = array(
-      "args" => array(
-        "to" => "6289677249060@c.us",
-        "content" => $pesan
-      )
-    );
+    $this->sendMsg($this->nomorku, $pesan);
 
-    $ch = curl_init();
-
-    curl_setopt($ch, CURLOPT_URL, 'https://riyanapiwa.herokuapp.com/sendText');
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-
-    $headers = array();
-    $headers[] = 'Accept: */*';
-    $headers[] = 'Api_key: t]z-8Dkyf^nD7iZB9GJI{T$K1[S[s?';
-    $headers[] = 'Content-Type: application/json';
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-    $result = curl_exec($ch);
-    if (curl_errno($ch)) {
-      echo 'Error:' . curl_error($ch);
-    }
-    curl_close($ch);
   }
 
   public function listWebhook()

@@ -14,15 +14,15 @@
                 <input type="hidden" name="id" id="userID" value="">
                     <div class="mb-3">
                       <label for="nama" class="form-label">Nama Lengkap</label>
-                      <input type="text" name="nama" class="form-control" id="nama" placeholder="Nama Lengkap">
+                      <input type="text" name="nama" class="form-control" id="nama" placeholder="Nama Lengkap" required="true">
                     </div>
                     <div class="mb-3">
                       <label for="nohp" class="form-label">No. Handphone</label>
-                      <input type="text" name="nohp" class="form-control" id="nohp" placeholder="628xxxxx">
+                      <input type="text" name="nohp" class="form-control" id="nohp" placeholder="628xxxxx" required="true">
                     </div>
                     <div class="mb-3">
                       <label for="alamat" class="form-label">Alamat</label>
-                      <input type="text" name="alamat" class="form-control" id="alamat" placeholder="Jl. Kusuma Negara No. 35B Bantul Yogyakarta">
+                      <input type="text" name="alamat" class="form-control" id="alamat" placeholder="Jl. Kusuma Negara No. 35B Bantul Yogyakarta" required="true">
                     </div>
                     <button id="submitUser" type="button" class="btn btn-labeled btn-primary mb-2"><span class="btn-label"><i class="icon-add fa fa-spinner fa-spin"></i> Tambah</button>
                     <button id="btnTunggu" type="button" class="btn btn-labeled btn-primary mb-2"><span class="btn-label"><i class="icon-tunggu fa fa-spinner fa-spin"></i>&nbsp;</button>
@@ -94,29 +94,41 @@
       function getTable(){
         var htmls = [];
 
-        $.ajax({ 
+        request = $.ajax({
             type: 'GET', 
             url: 'https://riyanfire.herokuapp.com/api/user/getall', 
-            success: function (data) { 
-                $.each(data, function (index, value) {
-                  if (value) {
-                    var nama = value.nama;
-                    var nohp = value.nohp;
-                    var alamat = value.alamat;
-                    if (value.nama === undefined) { nama = "-" }
-                    if (value.nohp === undefined) { nohp = "-" }
-                    if (value.alamat === undefined) { alamat = "-" }
-                    htmls.push('<tr>\
-                    <td>' + nama + '</td>\
-                    <td>' + nohp + '</td>\
-                    <td>' + alamat + '</td>\
-                    <td><button class="btn btn-warning updateData" data-id="' + value.id + '">Update</button>\
-                    <button data-bs-toggle="modal" data-bs-target="#remove-modal" class="btn btn-danger removeData" data-id="' + value.id + '">Delete</button></td>\
-                  </tr>');
-                  }
-                });
-                $('#tbody').html("");
-                $('#tbody').html(htmls);
+            dataType: 'json'
+        });
+
+        request.done(function (response, textStatus, jqXHR){
+          $.each(response, function (index, value) {
+            if (value) {
+              var nama = value.nama;
+              var nohp = value.nohp;
+              var alamat = value.alamat;
+              if (value.nama === undefined) { nama = "-" }
+              if (value.nohp === undefined) { nohp = "-" }
+              if (value.alamat === undefined) { alamat = "-" }
+              htmls.push('<tr>\
+              <td>' + nama + '</td>\
+              <td>' + nohp + '</td>\
+              <td>' + alamat + '</td>\
+              <td><button class="btn btn-warning updateData" data-id="' + value.id + '">Update</button>\
+              <button data-bs-toggle="modal" data-bs-target="#remove-modal" class="btn btn-danger removeData" data-id="' + value.id + '">Delete</button></td>\
+            </tr>');
+            }
+          });
+          $('#tbody').html("");
+          $('#tbody').html(htmls);
+        });
+
+        request.fail(function (jqXHR, textStatus, errorThrown){
+            console.error(
+                "The following error occurred: "+
+                textStatus, errorThrown
+            );
+            if(errorThrown == 'Not Found'){
+              $('#tbody').html("<tr><td colspan=\"4\">Data Kosong...</td></tr>");
             }
         });
 
@@ -186,13 +198,17 @@
 
           request.done(function (response, textStatus, jqXHR){
             console.log(response)
-            alert = "Data Berhasil Dihapus...";
             getTable();
             $("#remove-modal").modal('hide');
             icondel.hide();
+            $.notify("Data Berhasil Dihapus...", "success");
           });
 
           request.fail(function (jqXHR, textStatus, errorThrown){
+            console.error(
+                "The following error occurred: "+
+                textStatus, errorThrown
+            );
               $.notify("Data gagal dihapus", "error");
           }); 
           

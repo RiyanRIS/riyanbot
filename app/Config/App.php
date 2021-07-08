@@ -23,7 +23,8 @@ class App extends BaseConfig
 	| environments.
 	|
 	*/
-	public $baseURL = 'https://riyanbot.herokuapp.com/';
+	// public $baseURL = 'https://riyanbot.herokuapp.com/';
+	public $baseURL = 'http://localhost:8080/';
 
 	/*
 	|--------------------------------------------------------------------------

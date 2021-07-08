@@ -19,21 +19,24 @@ $routes->get('/', 'Bot::index');
 $routes->get('/bot', 'Bot::index');
 $routes->post('/bot', 'Bot::bot');
 
-$routes->get('/tes', 'Wa::tes');
 $routes->add('/wa', 'Wa::index');
+$routes->get('/wa/tes', 'Schedule::whatsapp');
+
 $routes->get('/wa/home', 'Wa::home');
-$routes->get('/wa/user', 'Wa::user');
-$routes->post('/wa/user/add', 'Wa::getAdd');
-$routes->post('/wa/user/get/(:any)', 'Wa::getGet/$1');
-$routes->post('/wa/user/upd', 'Wa::getUpd');
-$routes->post('/wa/user/del/(:any)', 'Wa::getDel/$1');
+
+$routes->group('wa/user', function($routes)
+{
+	$routes->get('/', 'WaUser::user');
+	$routes->post('add', 'WaUser::getAdd');
+	$routes->post('get/(:any)', 'WaUser::getGet/$1');
+	$routes->post('upd', 'WaUser::getUpd');
+	$routes->post('del/(:any)', 'WaUser::getDel/$1');
+});
+
 $routes->get('/wa/cek', 'Wa::statusSpam');
 $routes->post('/wa/cek', 'Wa::getStatusSpam');
 
-$routes->get('/carinomor', 'Wa::getPhoneOrang');
 $routes->post('/wa/autoresponse', 'Wa::autoresponn');
-// $routes->get('/tes', 'Home::sendMsg');
-$routes->get('/tes/(:any)/(:any)', 'Wa::sendMsg/$1/$2');
 
 if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
 	require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
