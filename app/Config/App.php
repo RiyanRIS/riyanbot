@@ -24,7 +24,6 @@ class App extends BaseConfig
 	|
 	*/
 	public $baseURL = 'https://riyanbot.herokuapp.com/';
-	// public $baseURL = 'http://localhost:8080/';
 
 	/*
 	|--------------------------------------------------------------------------

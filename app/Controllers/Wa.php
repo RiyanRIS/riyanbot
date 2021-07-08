@@ -14,37 +14,15 @@ class Wa extends BaseController
 
 	public function index()
 	{
-		echo "<link id='favicon' rel='icon' type='image/png' href='https://i.ibb.co/BzNVj8K/logo.png'><title>Server Bot WhatsApp 🇮🇩</title>Server Bot WhatsApp 🇮🇩</br></br>❤️ <a target='_blank' href='https://github.com/open-wa/wa-automate-nodejs'>https://github.com/open-wa/wa-automate-nodejs</a></br>🤖 <a target='_blank' href='https://wa.me/16502390040'>https://wa.me/16502390040</a></br></br>Enjoy..😃";
-
-	}
-
-	public function home()
-	{
-		$data['nav'] = 'home'; 
-		return view("wa/index", $data);
-	}
-
-	public function status()
-	{
 		$this->setting = new SettingModel();
 
 		$setting = $this->setting->findAll();
 
-		if($setting[0]['statuss'] == 1){
-			echo form_open(\uri_string());
-			echo form_hidden('statuss', '0');
-			echo "\nStatus: 🟢Active... ";
-			echo form_submit('submit', 'Nonaktifkan');
-			echo form_close();
-		}else{
-			echo form_open(\uri_string());
-			echo form_hidden('statuss', '1');
-			echo "\nStatus: 🔴Deactive... ";
-			echo form_submit('submit', 'Aktifkan');
-			echo form_close();
-		}
-
+		$data['nav'] = 'home'; 
+		$data['setting'] = $setting;
+		return view("wa/index", $data);
 	}
+
 
 	public function autoresponn()
 	{
@@ -91,7 +69,7 @@ class Wa extends BaseController
 
 		$data = ['statuss' => $this->request->getPost("statuss")];
 		if($this->setting->update('1', $data)){
-			return redirect()->to(base_url("wa/status"));
+			return redirect()->to(base_url("wa"));
 		}else{
 			echo "Something went wrong...";
 		}

@@ -11,13 +11,13 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
-            <a class="nav-link <?= nav("home", @$nav) ?>" href="/wa/home">Home</a>
+            <a class="nav-link <?= nav("home", @$nav) ?>" href="<?= site_url('wa') ?>">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <?= nav("quote", @$nav) ?>" href="/wa/quote">Quote</a>
+            <a class="nav-link <?= nav("quote", @$nav) ?>" href="<?= site_url('wa/quote') ?>">Quote</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <?= nav("user", @$nav) ?>" href="/wa/user">User</a>
+            <a class="nav-link <?= nav("user", @$nav) ?>" href="<?= site_url('wa/user') ?>">User</a>
           </li>
         </ul>
       </div>

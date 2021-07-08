@@ -19,10 +19,9 @@ $routes->get('/', 'Bot::index');
 $routes->get('/bot', 'Bot::index');
 $routes->post('/bot', 'Bot::bot');
 
-$routes->add('/wa', 'Wa::index');
+$routes->get('/wa', 'Wa::index');
 
-$routes->get('/wa/status', 'Wa::status');
-$routes->get('/wa/home', 'Wa::home');
+$routes->post('/wa/change-status', 'Wa::getStatus');
 
 $routes->group('wa/user', function($routes)
 {
@@ -41,8 +40,6 @@ $routes->group('wa/quote', function($routes)
 	$routes->post('upd', 'WaQuote::getUpd');
 	$routes->post('del/(:any)', 'WaQuote::getDel/$1');
 });
-
-$routes->post('/wa/status', 'Wa::getStatus');
 
 $routes->post('/wa/autoresponse', 'Wa::autoresponn');
 
