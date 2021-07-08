@@ -24,20 +24,20 @@ class Wa extends BaseController
 		return view("wa/index", $data);
 	}
 
-	public function statusSpam()
+	public function status()
 	{
 		$this->setting = new SettingModel();
 
 		$setting = $this->setting->findAll();
 
 		if($setting[0]['statuss'] == 1){
-			echo form_open(\uri_string());
+			echo form_open("wa/status");
 			echo form_hidden('statuss', '0');
 			echo "\nStatus: 🟢Active... ";
 			echo form_submit('submit', 'Nonaktifkan');
 			echo form_close();
 		}else{
-			echo form_open(\uri_string());
+			echo form_open("wa/status");
 			echo form_hidden('statuss', '1');
 			echo "\nStatus: 🔴Deactive... ";
 			echo form_submit('submit', 'Aktifkan');
@@ -85,13 +85,13 @@ class Wa extends BaseController
 		}
 	}
 
-	public function getStatusSpam()
+	public function getStatus()
 	{
 		$this->setting = new SettingModel();
 
 		$data = ['statuss' => $this->request->getPost("statuss")];
 		if($this->setting->update('1', $data)){
-			return redirect()->to(site_url("wa/cek"));
+			return redirect()->to("wa/status");
 		}else{
 			echo "Something went wrong...";
 		}

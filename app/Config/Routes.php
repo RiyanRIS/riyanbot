@@ -21,6 +21,7 @@ $routes->post('/bot', 'Bot::bot');
 
 $routes->add('/wa', 'Wa::index');
 
+$routes->get('/wa/status', 'Wa::status');
 $routes->get('/wa/home', 'Wa::home');
 
 $routes->group('wa/user', function($routes)
@@ -41,8 +42,7 @@ $routes->group('wa/quote', function($routes)
 	$routes->post('del/(:any)', 'WaQuote::getDel/$1');
 });
 
-$routes->get('/wa/cek', 'Wa::statusSpam');
-$routes->post('/wa/cek', 'Wa::getStatusSpam');
+$routes->post('/wa/status', 'Wa::getStatus');
 
 $routes->post('/wa/autoresponse', 'Wa::autoresponn');
 
