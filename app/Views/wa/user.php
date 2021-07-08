@@ -54,8 +54,8 @@
 
     <!-- Delete Model -->
     <form action="" method="POST" class="users-remove-record-model">
-        <div id="remove-modal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog modal-dialog-centered" style="width:55%;">
+        <div id="remove-modal" data-bs-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title" id="custom-width-modalLabel">Delete</h4>
