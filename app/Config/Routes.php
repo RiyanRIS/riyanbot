@@ -21,6 +21,12 @@ $routes->post('/bot', 'Bot::bot');
 
 $routes->get('/tes', 'Wa::tes');
 $routes->add('/wa', 'Wa::index');
+$routes->get('/wa/home', 'Wa::home');
+$routes->get('/wa/user', 'Wa::user');
+$routes->post('/wa/user/add', 'Wa::getAdd');
+$routes->post('/wa/user/get/(:any)', 'Wa::getGet/$1');
+$routes->post('/wa/user/upd', 'Wa::getUpd');
+$routes->post('/wa/user/del/(:any)', 'Wa::getDel/$1');
 $routes->get('/wa/cek', 'Wa::statusSpam');
 $routes->post('/wa/cek', 'Wa::getStatusSpam');
 

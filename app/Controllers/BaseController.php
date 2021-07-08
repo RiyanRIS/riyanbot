@@ -10,6 +10,8 @@ class BaseController extends Controller
 	protected $validation;
 	protected $helpers = [];
 
+	public $data = [];
+
 	// MODEL
 	protected $users;
 	protected $kategori;
@@ -22,6 +24,8 @@ class BaseController extends Controller
 
 		$this->session       = \Config\Services::session();
 		$this->validation = \Config\Services::validation();
+
+		helper(['form', 'ini_helper']);
 
 		// LOAD MODEL
 		// $this->users = new UsersModel();

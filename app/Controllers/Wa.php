@@ -4,44 +4,76 @@ namespace App\Controllers;
 
 use \App\Models\WaSpamModel;
 use \App\Models\SettingModel;
+use \App\Models\FuserModel;
 
 class Wa extends BaseController
 {
 	protected $wa_spam;
 	protected $setting;
+	protected $f_user;
 
-	function savePastebin($text, $name){
-		$name ?: time();
-		$api_dev_key 			= 'acd7643f900129370d7d3e9d584aff27'; // your api_developer_key
-		$api_paste_code 		= $text; // your paste text
-		$api_paste_private 		= '1'; // 0=public 1=unlisted 2=private
-		$api_paste_name			= $name.'.txt'; // name or title of your paste
-		$api_paste_expire_date 		= 'N';
-		$api_paste_format 		= 'text';
-		$api_user_key 			= '7af152ae1b4fdd014dbbfe0db84df47c'; // if an invalid or expired api_user_key is used, an error will spawn. If no api_user_key is used, a guest paste will be created
-		$api_paste_name			= urlencode($api_paste_name);
-		$api_paste_code			= urlencode($api_paste_code);
+	public function index()
+	{
+		echo "<link id='favicon' rel='icon' type='image/png' href='https://i.ibb.co/BzNVj8K/logo.png'><title>Server Bot WhatsApp 🇮🇩</title>Server Bot WhatsApp 🇮🇩</br></br>❤️ <a target='_blank' href='https://github.com/open-wa/wa-automate-nodejs'>https://github.com/open-wa/wa-automate-nodejs</a></br>🤖 <a target='_blank' href='https://wa.me/16502390040'>https://wa.me/16502390040</a></br></br>Enjoy..😃";
 
-		$url 				= 'https://pastebin.com/api/api_post.php';
-		$ch 				= curl_init($url);
-
-		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, 'api_option=paste&api_user_key='.$api_user_key.'&api_paste_private='.$api_paste_private.'&api_paste_name='.$api_paste_name.'&api_paste_expire_date='.$api_paste_expire_date.'&api_paste_format='.$api_paste_format.'&api_dev_key='.$api_dev_key.'&api_paste_code='.$api_paste_code.'');
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_VERBOSE, 1);
-		curl_setopt($ch, CURLOPT_NOBODY, 0);
-
-		$response  			= curl_exec($ch);
-		return $response;
 	}
 
-	public function index(){
-		echo "<link id='favicon' rel='icon' type='image/png' href='https://i.ibb.co/BzNVj8K/logo.png'><title>Server Bot WhatsApp 🇮🇩</title>Server Bot WhatsApp 🇮🇩</br></br>❤️ <a target='_blank' href='https://github.com/open-wa/wa-automate-nodejs'>https://github.com/open-wa/wa-automate-nodejs</a></br>🤖 <a target='_blank' href='https://wa.me/16502390040'>https://wa.me/16502390040</a></br></br>Enjoy..😃";
+	public function home(){
+		$data['nav'] = 'home'; 
+		return view("wa/index", $data);
+	}
+
+
+	public function user(){
+		$data['nav'] = 'user'; 
+		$data['title'] = 'User Model'; 
+		return view("wa/user", $data);
+	}
+
+	public function quote(){
+		$data['nav'] = 'quote'; 
+		$data['title'] = 'Quote Model'; 
+		return view("wa/quote", $data);
+	}
+
+	public function getAdd(){
+		$this->f_user = new FuserModel();
+		$data = [
+			'nama' => $this->request->getPost('nama'),
+			'nohp' => $this->request->getPost('nohp'),
+			'alamat' => $this->request->getPost('alamat')
+		];
+		$result = $this->f_user->add($data);
+		return json_encode($result);
+	}
+
+	public function getGet($id){
+		$this->f_user = new FuserModel();
+		$result = $this->f_user->get($id);
+		return json_encode($result);
+	}
+
+	public function getUpd(){
+		$id = $this->request->getPost('id');
+		$this->f_user = new FuserModel();
+		$data = [
+			'nama' => $this->request->getPost('nama'),
+			'nohp' => $this->request->getPost('nohp'),
+			'alamat' => $this->request->getPost('alamat')
+		];
+		$result = $this->f_user->upd($id, $data);
+		return json_encode($result);
+	}
+
+	public function getDel($id){
+		$this->f_user = new FuserModel();
+		$result = $this->f_user->del($id);
+		return json_encode($result);
 	}
 
 	public function statusSpam()
 	{
-		helper('form');
+		
 
 		$this->wa_spam = new WaSpamModel();
 		$this->setting = new SettingModel();
@@ -87,7 +119,49 @@ class Wa extends BaseController
 
 	}
 
-	public function getPhoneOrang($no, $jum){
+	public function autoresponn()
+	{
+		if ($json = json_decode(file_get_contents("php://input"), true)) {
+			$data = $json;
+		}
+
+		if ($data) {
+			$no = $data['data']['from'];
+			$text = $data['data']['body'];
+
+			$text = strtolower($text);
+
+			$text = \explode(" ", $text);
+
+			if (@$text[0] == 'getno') {
+				if(isset($text[1])){
+					
+					$total = 1000;
+					$nomor = $text[1];
+
+					if(isset($text[2])){
+						$total = $text[2];
+						$pesan = "Oke, crawl untuk no $nomor sebanyak ".$total."x sedang kami proses.";
+						$this->sendMsg($no, $pesan);
+					}else{
+						$pesan = "Oke, crawl untuk no $nomor sebanyak ".$total."x sedang kami proses.";
+						$this->sendMsg($no, $pesan);
+					}
+					$this->getPhoneOrang($text[1], $total);
+					die();
+				}else{
+					$pesan = "Harap gunakan format \"getno [nomor] [perulangan]\"";
+					$this->sendMsg($no, $pesan);
+					die();
+				}
+			}
+
+      $this->sendMsg($no, "hai");
+		}
+	}
+
+	public function getPhoneOrang($no, $jum)
+	{
 		// Starting clock time in seconds
 		$start_time = microtime(true);
 
@@ -156,46 +230,30 @@ class Wa extends BaseController
 		$this->sendMsg("6289677249060@c.us", $pesan);
 	}
 
-	public function autoresponn()
+	function savePastebin($text, $name)
 	{
-		if ($json = json_decode(file_get_contents("php://input"), true)) {
-			$data = $json;
-		}
+		$name ?: time();
+		$api_dev_key 			= 'acd7643f900129370d7d3e9d584aff27'; // your api_developer_key
+		$api_paste_code 		= $text; // your paste text
+		$api_paste_private 		= '1'; // 0=public 1=unlisted 2=private
+		$api_paste_name			= $name.'.txt'; // name or title of your paste
+		$api_paste_expire_date 		= 'N';
+		$api_paste_format 		= 'text';
+		$api_user_key 			= '7af152ae1b4fdd014dbbfe0db84df47c'; // if an invalid or expired api_user_key is used, an error will spawn. If no api_user_key is used, a guest paste will be created
+		$api_paste_name			= urlencode($api_paste_name);
+		$api_paste_code			= urlencode($api_paste_code);
 
-		if ($data) {
-			$no = $data['data']['from'];
-			$text = $data['data']['body'];
+		$url 				= 'https://pastebin.com/api/api_post.php';
+		$ch 				= curl_init($url);
 
-			$text = strtolower($text);
+		curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, 'api_option=paste&api_user_key='.$api_user_key.'&api_paste_private='.$api_paste_private.'&api_paste_name='.$api_paste_name.'&api_paste_expire_date='.$api_paste_expire_date.'&api_paste_format='.$api_paste_format.'&api_dev_key='.$api_dev_key.'&api_paste_code='.$api_paste_code.'');
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_VERBOSE, 1);
+		curl_setopt($ch, CURLOPT_NOBODY, 0);
 
-			$text = \explode(" ", $text);
-
-			if ($text[0] == 'getno') {
-				if(isset($text[1])){
-					
-					$total = 1000;
-					$nomor = $text[1];
-
-					if(isset($text[2])){
-						$total = $text[2];
-						$pesan = "Oke, crawl untuk no $nomor sebanyak ".$total."x sedang kami proses.";
-						$this->sendMsg($no, $pesan);
-					}else{
-						$pesan = "Oke, crawl untuk no $nomor sebanyak ".$total."x sedang kami proses.";
-						$this->sendMsg($no, $pesan);
-					}
-					$this->getPhoneOrang($text[1], $total);
-					die();
-				}else{
-					$pesan = "Harap gunakan format \"getno [nomor] [perulangan]\"";
-					$this->sendMsg($no, $pesan);
-					die();
-				}
-				
-			}
-
-      $this->sendMsg($no, "hai");
-		}
+		$response  			= curl_exec($ch);
+		return $response;
 	}
 
 	function sendMsg($no, $text)
