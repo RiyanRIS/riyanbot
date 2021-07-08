@@ -13,7 +13,7 @@ class WaUser extends BaseController
     $this->f_user = new FuserModel();
   }
 
-	public function user(){
+	public function index(){
 		$data['nav'] = 'user'; 
 		$data['title'] = 'User Model'; 
 		return view("wa/user", $data);

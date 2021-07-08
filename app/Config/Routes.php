@@ -20,17 +20,25 @@ $routes->get('/bot', 'Bot::index');
 $routes->post('/bot', 'Bot::bot');
 
 $routes->add('/wa', 'Wa::index');
-$routes->get('/wa/tes', 'Schedule::whatsapp');
 
 $routes->get('/wa/home', 'Wa::home');
 
 $routes->group('wa/user', function($routes)
 {
-	$routes->get('/', 'WaUser::user');
+	$routes->get('/', 'WaUser::index');
 	$routes->post('add', 'WaUser::getAdd');
 	$routes->post('get/(:any)', 'WaUser::getGet/$1');
 	$routes->post('upd', 'WaUser::getUpd');
 	$routes->post('del/(:any)', 'WaUser::getDel/$1');
+});
+
+$routes->group('wa/quote', function($routes)
+{
+	$routes->get('/', 'WaQuote::index');
+	$routes->post('add', 'WaQuote::getAdd');
+	$routes->post('get/(:any)', 'WaQuote::getGet/$1');
+	$routes->post('upd', 'WaQuote::getUpd');
+	$routes->post('del/(:any)', 'WaQuote::getDel/$1');
 });
 
 $routes->get('/wa/cek', 'Wa::statusSpam');

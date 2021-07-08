@@ -11,6 +11,8 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
+
     <!-- Favicons -->
     <link rel="apple-touch-icon" href="https://i.ibb.co/BzNVj8K/logo.png" sizes="180x180">
     <link rel="icon" href="https://i.ibb.co/BzNVj8K/logo.png">
@@ -43,9 +45,9 @@
       }
 
       /* #updateUser, #cancelUpdate { */
-      #updateUser {
+      /* #isupdate {
         display: none;
-      }
+      } */
 
       .bd-placeholder-img {
         font-size: 1.125rem;

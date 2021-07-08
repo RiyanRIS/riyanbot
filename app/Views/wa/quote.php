@@ -7,43 +7,37 @@
   <div class="container">
     <div class="row">
       <div class="col-md-4">
-        <h5 class="mt-5" id="judul-form">Add User</h5>
+        <h5 class="mt-5" id="judul-form">Add Quote</h5>
         <div class="card small card-default">
             <div class="card-body">
-                <form id="addUser" class="form-inline" method="POST" action="">
-                <input type="hidden" name="id" id="userID" value="">
-                    <div class="mb-3">
-                      <label for="nama" class="form-label">Nama Lengkap</label>
-                      <input type="text" name="nama" class="form-control" id="nama" placeholder="Nama Lengkap" required="true">
-                    </div>
-                    <div class="mb-3">
-                      <label for="nohp" class="form-label">No. Handphone</label>
-                      <input type="text" name="nohp" class="form-control" id="nohp" placeholder="628xxxxx" required="true">
-                    </div>
-                    <div class="mb-3">
-                      <label for="alamat" class="form-label">Alamat</label>
-                      <input type="text" name="alamat" class="form-control" id="alamat" placeholder="Jl. Kusuma Negara No. 35B Bantul Yogyakarta" required="true">
-                    </div>
-                    <button id="submitUser" type="button" class="btn btn-labeled btn-primary mb-2"><span class="btn-label"><i class="icon-add fa fa-spinner fa-spin"></i> Tambah</button>
-                    <button id="btnTunggu" type="button" class="btn btn-labeled btn-primary mb-2"><span class="btn-label"><i class="icon-tunggu fa fa-spinner fa-spin"></i>&nbsp;</button>
-                    <div id="isupdate">
-                      <button id="btnUpdate" type="button" class="btn btn-primary mb-2"><i class="icon-upd fa fa-spinner fa-spin"></i> Ubah</button>
-                      <button id="cancelUpdate" type="button" class="btn btn-danger mb-2">Batal</button>
-                    </div>
-                    
+                <form id="addQuote" class="form-inline" method="POST" action="">
+                  <input type="hidden" name="id" id="quoteID" value="">
+                  <div class="mb-3">
+                    <label for="quote" class="form-label">Quote</label>
+                    <textarea name="quote" id="quote" cols="10" rows="5" placeholder="Masukkan Quote" class="form-control" required="true"></textarea>
+                  </div>
+                  <div class="mb-3">
+                    <label for="from" class="form-label">From</label>
+                    <input type="text" name="from" class="form-control" id="from" placeholder="Asal Quote" required="true">
+                  </div>
+                  <button id="submitQuote" type="button" class="btn btn-labeled btn-primary mb-2"><span class="btn-label"><i class="icon-add fa fa-spinner fa-spin"></i> Tambah</button>
+                  <button id="btnTunggu" type="button" class="btn btn-labeled btn-primary mb-2"><span class="btn-label"><i class="icon-tunggu fa fa-spinner fa-spin"></i>&nbsp;</button>
+                  <div id="isupdate">
+                    <button id="btnUpdate" type="button" class="btn btn-primary mb-2"><i class="icon-upd fa fa-spinner fa-spin"></i> Ubah</button>
+                    <button id="cancelUpdate" type="button" class="btn btn-danger mb-2">Batal</button>
+                  </div>
                 </form>
             </div>
         </div>
       </div>
       <div class="col-md-8">  
         <div class="mt-5 lokasi-alert"></div>
-        <h5 class="">User</h5>
-        <table id="myTable" class="table small table-bordered">
+        <h5 class="">Quote</h5>
+        <table id="myTable" class="table small table-bordered" style="width:100%">
           <thead><tr>
-                <th>Nama</th>
-                <th>No. Handphone</th>
-                <th>Alamat</th>
-                <th width="180" class="text-center">Aksi</th>
+                <th>Quote</th>
+                <th>From</th>
+                <th width="150" class="text-center">Aksi</th>
             </tr>
             </thead><tbody id="tbody"></tbody>
         </table>
@@ -53,7 +47,7 @@
 </main>
 
     <!-- Delete Model -->
-    <form action="" method="POST" class="users-remove-record-model">
+    <form action="" method="POST" class="quotes-remove-record-model">
         <div id="remove-modal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-dialog-centered" style="width:55%;">
                 <div class="modal-content">
@@ -79,7 +73,7 @@
     <script>
     $(document).ready(function(){
       var isupdate = $('#isupdate');
-      var btnSubmit = $("#submitUser");
+      var btnSubmit = $("#submitQuote");
       var btnUpdate = $("#btnUpdate");
       var btnCancel = $("#cancelUpdate");
       var judulForm = $("#judul-form");
@@ -87,7 +81,7 @@
       var iconupd = $(".icon-upd");
       var icondel = $(".icon-del");
 
-      function loadingg(){
+      function loadingg(){ 
         $('#tbody').html("<tr class=\"loading\"><td colspan=\"4\">Tunggu....</td></tr>");
       }
 
@@ -96,23 +90,20 @@
 
         request = $.ajax({
             type: 'GET', 
-            url: 'https://riyanfire.herokuapp.com/api/user/getall', 
+            url: 'https://riyanfire.herokuapp.com/api/quote/getall', 
             dataType: 'json'
         });
 
         request.done(function (response, textStatus, jqXHR){
           $.each(response, function (index, value) {
             if (value) {
-              var nama = value.nama;
-              var nohp = value.nohp;
-              var alamat = value.alamat;
-              if (value.nama === undefined) { nama = "-" }
-              if (value.nohp === undefined) { nohp = "-" }
-              if (value.alamat === undefined) { alamat = "-" }
+              var quote = value.quote;
+              var from = value.from;
+              if (value.quote === undefined) { quote = "-" }
+              if (value.from === undefined) { from = "-" }
               htmls.push('<tr>\
-              <td>' + nama + '</td>\
-              <td>' + nohp + '</td>\
-              <td>' + alamat + '</td>\
+              <td>' + quote + '</td>\
+              <td>' + from + '</td>\
               <td><button class="btn btn-warning updateData" data-id="' + value.id + '">Update</button>\
               <button data-bs-toggle="modal" data-bs-target="#remove-modal" class="btn btn-danger removeData" data-id="' + value.id + '">Delete</button></td>\
             </tr>');
@@ -136,25 +127,23 @@
       }
 
       // Aksi Add
-      $('#submitUser').on('click', function () {
+      $('#submitQuote').on('click', function () {
         event.preventDefault();
         loadingg();
         iconadd.show();
 
-        const values = $("#addUser").serializeArray();
+        const values = $("#addQuote").serializeArray();
 
-        var nama = values[1].value;
-        var nohp = values[2].value;
-        var alamat = values[3].value;
+        var quote = values[1].value;
+        var from = values[2].value;
 
         request = $.ajax({
             type: 'POST',
-            url: "/wa/user/add",
+            url: "/wa/quote/add",
             dataType: 'json',
             data: {
-              nama: nama,
-              nohp: nohp,
-              alamat: alamat
+              quote: quote,
+              from: from,
             }
         });
 
@@ -162,7 +151,8 @@
           console.log(response)
           getTable();
           iconadd.hide();
-          $("#addUser input").val("");
+          $("#addQuote input").val("");
+          $("#addQuote textarea").val("");
           $.notify("Data Berhasil Disimpan...", "success");
         });
 
@@ -179,21 +169,22 @@
       // Remove Data
       $("body").on('click', '.removeData', function () {
           var id = $(this).attr('data-id');
-          $('body').find('.users-remove-record-model').append('<input name="id" type="hidden" value="' + id + '">');
+          $('body').find('.quotes-remove-record-model').append('<input name="id" type="hidden" value="' + id + '">');
       });
 
       // Aksi remove
       $('.deleteRecord').on('click', function () {
           loadingg();
-          $("#addUser input").val("");
+          $("#addQuote input").val("");
+          $("#addQuote textarea").val("");
           icondel.show();
 
-          var values = $(".users-remove-record-model").serializeArray();
+          var values = $(".quotes-remove-record-model").serializeArray();
           var id = values[0].value;
 
           request = $.ajax({
             type: 'POST',
-            url: "/wa/user/del/"+id,
+            url: "/wa/quote/del/"+id,
             dataType: 'json',
           });
 
@@ -213,12 +204,12 @@
               $.notify("Data gagal dihapus", "error");
           }); 
           
-          $('body').find('.users-remove-record-model').find("input").remove();
+          $('body').find('.quotes-remove-record-model').find("input").remove();
       });
 
       // Bersihkan data remove
       $('.remove-data-from-delete-form').click(function () {
-          $('body').find('.users-remove-record-model').find("input").remove();
+          $('body').find('.quotes-remove-record-model').find("input").remove();
       });
 
       // Update data
@@ -227,12 +218,14 @@
         btnSubmit.hide();
         isupdate.hide();
         $("#btnTunggu").show();
-        $("#addUser input").val("");
-        $("#addUser input").attr("disabled", true);
+        $("#addQuote input").val("");
+        $("#addQuote textarea").val("");
+        $("#addQuote input").attr("disabled", true);
+        $("#addQuote textarea").attr("disabled", true);
 
         request = $.ajax({
             type: 'POST',
-            url: "/wa/user/get/"+updateID,
+            url: "/wa/quote/get/"+updateID,
             dataType: 'json',
             timeout: 5000
         });
@@ -241,12 +234,12 @@
           console.log(response)
           $("#btnTunggu").hide();
           isupdate.show();
-          judulForm.html('Update User');
-          $("#addUser input").attr("disabled", false);
-          $("#userID").val(updateID);
-          $("#nama").val(response.nama);
-          $("#nohp").val(response.nohp);
-          $("#alamat").val(response.alamat);
+          judulForm.html('Update quote');
+          $("#addQuote input").attr("disabled", false);
+          $("#addQuote textarea").attr("disabled", false);
+          $("#quoteID").val(updateID);
+          $("#quote").val(response.quote);
+          $("#from").val(response.from);
         });
 
         request.fail(function (jqXHR, textStatus, errorThrown){
@@ -257,13 +250,15 @@
             if(textStatus == "timeout"){
               $.notify("Waktu request habis, silahkan ulangi sekali lagi", "error");
             }else{
-              $.notify("UserID "+updateID+" tidak ditemukan", "error");
+              $.notify("quoteID "+updateID+" tidak ditemukan", "error");
             }
-            $("#addUser input").val("");
+            $("#addQuote input").val("");
+            $("#addQuote textarea").val("");
+            
             btnSubmit.show();
             $("#btnTunggu").hide();
             isupdate.hide();
-            judulForm.html('Add User');
+            judulForm.html('Add quote');
         });
       });
 
@@ -273,22 +268,20 @@
         loadingg();
         iconupd.show();
 
-        const values = $("#addUser").serializeArray();
+        const values = $("#addQuote").serializeArray();
 
         var id = values[0].value;
-        var nama = values[1].value;
-        var nohp = values[2].value;
-        var alamat = values[3].value;
+        var quote = values[1].value;
+        var from = values[2].value;
 
         request = $.ajax({
             type: 'POST',
-            url: "/wa/user/upd",
+            url: "/wa/quote/upd",
             dataType: 'json',
             data: {
               id: id,
-              nama: nama,
-              nohp: nohp,
-              alamat: alamat
+              quote: quote,
+              from: from
             }
         });
 
@@ -296,10 +289,11 @@
           console.log(response)
           getTable();
           iconupd.hide();
-          $("#addUser input").val("");
+          $("#addQuote input").val("");
+          $("#addQuote textarea").val("");
           btnSubmit.show();
           isupdate.hide();
-          judulForm.html('Add User');
+          judulForm.html('Add quote');
           $.notify("Data Berhasil Diubah...", "success");
         });
 
@@ -315,10 +309,11 @@
 
       // Batal update
       btnCancel.on('click', function (){
-        $("#addUser input").val("");
+        $("#addQuote input").val("");
+        $("#addQuote textarea").val("");
         btnSubmit.show();
         isupdate.hide();
-        judulForm.html('Add User');
+        judulForm.html('Add quote');
       });
 
       iconadd.hide();
