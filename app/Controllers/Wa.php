@@ -31,13 +31,13 @@ class Wa extends BaseController
 		$setting = $this->setting->findAll();
 
 		if($setting[0]['statuss'] == 1){
-			echo form_open("wa/status");
+			echo form_open(\uri_string());
 			echo form_hidden('statuss', '0');
 			echo "\nStatus: 🟢Active... ";
 			echo form_submit('submit', 'Nonaktifkan');
 			echo form_close();
 		}else{
-			echo form_open("wa/status");
+			echo form_open(\uri_string());
 			echo form_hidden('statuss', '1');
 			echo "\nStatus: 🔴Deactive... ";
 			echo form_submit('submit', 'Aktifkan');
@@ -91,7 +91,7 @@ class Wa extends BaseController
 
 		$data = ['statuss' => $this->request->getPost("statuss")];
 		if($this->setting->update('1', $data)){
-			return redirect()->to("wa/status");
+			return redirect()->to(base_url("wa/status"));
 		}else{
 			echo "Something went wrong...";
 		}
