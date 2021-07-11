@@ -33,11 +33,15 @@ class Schedule extends BaseController
 
   public function index()
   {
-    $str = file_get_contents('https://gist.githubusercontent.com/RiyanRIS/2514f78ae08f99309b1b561058ff0413/raw/4b55943b604726efa9c8080510392890555dda1d/quotes.json');
-		$json = json_decode($str, true); // decode the JSON into an associative array
+    // $str = file_get_contents('https://gist.githubusercontent.com/RiyanRIS/2514f78ae08f99309b1b561058ff0413/raw/4b55943b604726efa9c8080510392890555dda1d/quotes.json');
+		// $json = json_decode($str, true); // decode the JSON into an associative array
 
-		$r = rand(1, count($json));
-    $pesan = $json[$r]['quote']."\n\n~ ".$json[$r]['by'];
+		// $r = rand(1, count($json));
+
+		$data = $this->quote->getAll();
+
+		$r = \rand(0, (count($data) - 1));
+    $pesan = $data[$r]['quote']."\n\n~ ".$data[$r]['from'];
 
     $data = $this->users->findAll();
     foreach ($data as $key) {
