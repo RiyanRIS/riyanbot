@@ -7,6 +7,7 @@ use \App\Models\WaSpamModel;
 use \App\Models\SettingModel;
 use \App\Models\TelChatModel;
 use \App\Models\TelChatStatusModel;
+use \App\Models\FquoteModel;
 
 class Schedule extends BaseController
 {
@@ -16,11 +17,13 @@ class Schedule extends BaseController
   protected $chat;
   protected $wa_spam;
   protected $setting;
+  protected $quote;
   protected $chat_status;
 
   public function __construct()
   {
 		$this->setting = new SettingModel();
+		$this->quote = new FquoteModel();
     $this->users = new TelUsersModel();
     $this->chat = new TelChatModel();
     $this->wa_spam = new WaSpamModel();
@@ -65,19 +68,18 @@ class Schedule extends BaseController
   public function kirimQuotes()
   {
 		$setting = $this->setting->findAll();
+
     // JIKA STATUS SPAM DEACTIVE MAKA KELUAR FUNCTION
     if($setting[0]['statuss'] == 0){
       return true;
     }
 
-    $str = file_get_contents('https://gist.githubusercontent.com/RiyanRIS/2514f78ae08f99309b1b561058ff0413/raw/4b55943b604726efa9c8080510392890555dda1d/quotes.json');
-		$json = json_decode($str, true); // decode the JSON into an associative array
+		$data = $this->quote->getAll();
 
-		$r = rand(1, count($json));
-    $pesan = $json[$r]['quote']."\n\n~ ".$json[$r]['by'];
+		$r = \rand(0, (count($data) - 1));
+    $pesan = $data[$r]['quote']."\n\n~ ".$data[$r]['from'];
 
     $this->sendMsg($this->nomorku, $pesan);
-
   }
 
   public function listWebhook()

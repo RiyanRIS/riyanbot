@@ -5,6 +5,7 @@ namespace App\Controllers;
 use \App\Models\WaSpamModel;
 use \App\Models\SettingModel;
 use \App\Models\FuserModel;
+use \App\Models\FquoteModel;
 
 class Wa extends BaseController
 {
@@ -22,7 +23,6 @@ class Wa extends BaseController
 		$data['setting'] = $setting;
 		return view("wa/index", $data);
 	}
-
 
 	public function autoresponn()
 	{
