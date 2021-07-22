@@ -33,6 +33,13 @@ class Schedule extends BaseController
 
   public function index()
   {
+		$setting = $this->setting->findAll();
+
+    // JIKA STATUS SPAM DEACTIVE MAKA KELUAR FUNCTION
+    if($setting[0]['statuss'] == 0){
+      return true;
+    }
+		
 		$data = $this->quote->getAll();
 
 		$r = \rand(0, (count($data) - 1));
