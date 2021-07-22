@@ -41,6 +41,18 @@ $routes->group('wa/quote', function($routes)
 	$routes->post('del/(:any)', 'WaQuote::getDel/$1');
 });
 
+$routes->group('mob', function($routes)
+{
+	$routes->get('/', 'Mob::index');
+	$routes->get('tele', 'Mob::tele');
+	$routes->get('quotes', 'Mob::quotes');
+	$routes->get('users', 'Mob::users');
+	$routes->post('add', 'WaQuote::getAdd');
+	$routes->post('get/(:any)', 'WaQuote::getGet/$1');
+	$routes->post('upd', 'WaQuote::getUpd');
+	$routes->post('del/(:any)', 'WaQuote::getDel/$1');
+});
+
 $routes->post('/wa/autoresponse', 'Wa::autoresponn');
 
 if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
