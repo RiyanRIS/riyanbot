@@ -24,7 +24,7 @@ class Bot extends BaseController
 
   public function index()
   {
-    return view("home");
+    return "sayang";
   }
 
   public function bot()

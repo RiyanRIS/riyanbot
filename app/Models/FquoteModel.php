@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class FquoteModel extends Model
 {
-  private $url = "https://ryn-apibot.herokuapp.com";
+  private $url = "https://apifirebase.riyanris.my.id";
 
   public function getAll(){
     $url = $this->url."/api/quote/getall";

@@ -96,7 +96,7 @@
 
         request = $.ajax({
             type: 'GET', 
-            url: 'https://riyanfire.herokuapp.com/api/user/getall', 
+            url: 'https://apifirestore.riyanris.my.id/api/user/getall', 
             dataType: 'json'
         });
 
