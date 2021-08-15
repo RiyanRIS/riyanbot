@@ -90,7 +90,7 @@
 
         request = $.ajax({
             type: 'GET', 
-            url: 'https://apifirestore.riyanris.my.id/api/quote/getall', 
+            url: 'https://apifirebase.riyanris.my.id/api/quote/getall', 
             dataType: 'json'
         });
 
