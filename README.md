@@ -1,3 +1,3 @@
 # INI KHUSUS SAYA YANG PAHAM
-. npx @open-wa/wa-automate -o
+15--- url: https://data.riyanris.my.id
 ### HEHEHE
