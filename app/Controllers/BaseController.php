@@ -61,23 +61,25 @@ class BaseController extends Controller
 
 	function sendMsg($no, $text)
 	{
+		if($no == null){
+			$no = "15108986398";
+		}
+
 		$data = array(
-			"args" => array(
-				"to" => $no,
-				"content" => $text
-			)
+				"number" => $no,
+				"message" => $text
 		);
 
 		$ch = curl_init();
 
-		curl_setopt($ch, CURLOPT_URL, 'https://riyanapiwa.herokuapp.com/sendText');
+		curl_setopt($ch, CURLOPT_URL, $_SERVER['WA_URL'].'/wa/send');
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
 
 		$headers = array();
 		$headers[] = 'Accept: */*';
-		$headers[] = 'Api_key: t]z-8Dkyf^nD7iZB9GJI{T$K1[S[s?';
+		$headers[] = 'key: '.$_SERVER['WA_KEY'];
 		$headers[] = 'Content-Type: application/json';
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 

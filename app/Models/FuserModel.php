@@ -9,7 +9,7 @@ class FuserModel extends Model
   private $url = "https://ryn-apibot.herokuapp.com";
 
   public function getAll(){
-    $url = $this->url."/api/user/getall";
+    $url = $_SERVER['FIRE_URL']."/api/user/getall";
 
 		$ch = curl_init();
 
@@ -31,7 +31,7 @@ class FuserModel extends Model
   }
 
   public function get($id){
-    $url = $this->url."/api/user/get/".$id;
+    $url = $_SERVER['FIRE_URL']."/api/user/get/".$id;
 
 		$ch = curl_init();
 
@@ -53,7 +53,7 @@ class FuserModel extends Model
   }
 
   public function add($data){
-    $url = $this->url."/api/user/add";
+    $url = $_SERVER['FIRE_URL']."/api/user/add";
 
 		$ch = curl_init();
 
@@ -77,7 +77,7 @@ class FuserModel extends Model
   }
 
   public function upd($id, $data){
-    $url = $this->url."/api/user/update/".$id;
+    $url = $_SERVER['FIRE_URL']."/api/user/update/".$id;
 
 		$ch = curl_init();
 
@@ -101,7 +101,7 @@ class FuserModel extends Model
   }
 
   public function del($id){
-    $url = $this->url."/api/user/delete/".$id;
+    $url = $_SERVER['FIRE_URL']."/api/user/delete/".$id;
 
 		$ch = curl_init();
 

@@ -9,7 +9,7 @@ class FquoteModel extends Model
   private $url = "https://apifirebase.riyanris.my.id";
 
   public function getAll(){
-    $url = $this->url."/api/quote/getall";
+    $url = $_SERVER['FIRE_URL']."/api/quote/getall";
 
 		$ch = curl_init();
 
@@ -31,7 +31,7 @@ class FquoteModel extends Model
   }
 
   public function get($id){
-    $url = $this->url."/api/quote/get/".$id;
+    $url = $_SERVER['FIRE_URL']."/api/quote/get/".$id;
 
 		$ch = curl_init();
 
@@ -53,7 +53,7 @@ class FquoteModel extends Model
   }
 
   public function add($data){
-    $url = $this->url."/api/quote/add";
+    $url = $_SERVER['FIRE_URL']."/api/quote/add";
 
 		$ch = curl_init();
 
@@ -77,7 +77,7 @@ class FquoteModel extends Model
   }
 
   public function upd($id, $data){
-    $url = $this->url."/api/quote/update/".$id;
+    $url = $_SERVER['FIRE_URL']."/api/quote/update/".$id;
 
 		$ch = curl_init();
 
@@ -101,7 +101,7 @@ class FquoteModel extends Model
   }
 
   public function del($id){
-    $url = $this->url."/api/quote/delete/".$id;
+    $url = $_SERVER['FIRE_URL']."/api/quote/delete/".$id;
 
 		$ch = curl_init();
 
