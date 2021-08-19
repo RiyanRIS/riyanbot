@@ -73,7 +73,7 @@ class Schedule extends BaseController
 		$data = $this->quote->getAll();
 
 		$r = \rand(0, (count($data) - 1));
-    $pesan = $data[$r]['quote']."\n\n~ ".$data[$r]['from'];
+    $pesan = $data[$r]->quote."\n\n~ ".$data[$r]->from;
 
     $this->sendMsg($this->nomorku, $pesan);
   }
