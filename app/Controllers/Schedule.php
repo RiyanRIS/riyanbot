@@ -59,8 +59,6 @@ class Schedule extends BaseController
     // KIRIM QUOTES
     $this->kirimQuotes();
 
-    // SPAM CHAT
-    // $this->spamChat();
   }
 
   public function kirimQuotes()
