@@ -69,11 +69,11 @@ class Schedule extends BaseController
     $data = $this->firestore->getCollection('jadwal');
     $data = setDoc($data);
 
-    $a = time()+1200;
+    $a = time()-900;
     $b = time();
 
     foreach($data as $key){
-      if($b < $key['jadwal'] && $a > $key['jadwal'])
+      if($b > $key['jadwal'] && $a < $key['jadwal'])
       {
         if($key['status'] == "0"){
           $this->sendMsg($key['tujuan'], $key['pesan']);
