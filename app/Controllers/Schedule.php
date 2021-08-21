@@ -2,6 +2,11 @@
 
 namespace App\Controllers;
 
+include(__DIR__.'/../Libraries/firestore.php');
+
+use PHPFireStore\FireStoreApiClient;
+use PHPFireStore\FireStoreDocument;
+
 use \App\Models\TelUsersModel;
 use \App\Models\WaSpamModel;
 use \App\Models\SettingModel;
@@ -55,10 +60,44 @@ class Schedule extends BaseController
 
   function whatsapp()
   {
+    // CEK JADWAL
+    $this->jadwal();
 
     // KIRIM QUOTES
     $this->kirimQuotes();
 
+  }
+
+  public function jadwal()
+  {
+
+    $firestore = new FireStoreApiClient(
+      'belajarsite-d3728', 'AIzaSyCmCOQ2Aa9mo3Bq-9GeY24OOrPkTlvjA54'
+    );
+    $document = new FireStoreDocument();
+
+    $data = $firestore->getCollection('jadwal');
+    $data = setDoc($data);
+
+    $a = time()+1200;
+    $b = time();
+
+    foreach($data as $key){
+      if($b < $key['jadwal'] && $a > $key['jadwal'])
+      {
+        if($key['status'] == "0"){
+          $this->sendMsg($key['tujuan'], $key['pesan']);
+
+          $document->setString('pesan', $key['pesan']);
+          $document->setString('tujuan', $key['tujuan']);
+          $document->setString('jadwal', $key['jadwal']);
+          $document->setString('status', "1");
+          $document->setString('waktu_kirim', strval(time()));
+          
+          $firestore->updateDocument('jadwal', $key['id'], $document);
+        }
+      }
+    }
   }
 
   public function kirimQuotes()

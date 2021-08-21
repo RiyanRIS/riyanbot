@@ -17,6 +17,9 @@
             <a class="nav-link <?= nav("quote", @$nav) ?>" href="<?= site_url('wa/quote') ?>">Quote</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link <?= nav("jadwal", @$nav) ?>" href="<?= site_url('wa/jadwal') ?>">Jadwal</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link <?= nav("user", @$nav) ?>" href="<?= site_url('wa/user') ?>">User</a>
           </li>
         </ul>
