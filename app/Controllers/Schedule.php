@@ -2,11 +2,6 @@
 
 namespace App\Controllers;
 
-include(__DIR__.'/../Libraries/firestore.php');
-
-use PHPFireStore\FireStoreApiClient;
-use PHPFireStore\FireStoreDocument;
-
 use \App\Models\TelUsersModel;
 use \App\Models\WaSpamModel;
 use \App\Models\SettingModel;
@@ -71,12 +66,7 @@ class Schedule extends BaseController
   public function jadwal()
   {
 
-    $firestore = new FireStoreApiClient(
-      'belajarsite-d3728', 'AIzaSyCmCOQ2Aa9mo3Bq-9GeY24OOrPkTlvjA54'
-    );
-    $document = new FireStoreDocument();
-
-    $data = $firestore->getCollection('jadwal');
+    $data = $this->firestore->getCollection('jadwal');
     $data = setDoc($data);
 
     $a = time()+1200;
@@ -88,13 +78,13 @@ class Schedule extends BaseController
         if($key['status'] == "0"){
           $this->sendMsg($key['tujuan'], $key['pesan']);
 
-          $document->setString('pesan', $key['pesan']);
-          $document->setString('tujuan', $key['tujuan']);
-          $document->setString('jadwal', $key['jadwal']);
-          $document->setString('status', "1");
-          $document->setString('waktu_kirim', strval(time()));
-          
-          $firestore->updateDocument('jadwal', $key['id'], $document);
+          $this->document->setString('pesan', $key['pesan']);
+          $this->document->setString('tujuan', $key['tujuan']);
+          $this->document->setString('jadwal', $key['jadwal']);
+          $this->document->setString('status', "1");
+          $this->document->setString('waktu_kirim', strval(time()));
+
+          $this->firestore->updateDocument('jadwal', $key['id'], $this->document);
         }
       }
     }

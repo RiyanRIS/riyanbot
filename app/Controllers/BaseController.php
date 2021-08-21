@@ -2,6 +2,11 @@
 
 namespace App\Controllers;
 
+include(__DIR__.'/../Libraries/firestore.php');
+
+use PHPFireStore\FireStoreApiClient;
+use PHPFireStore\FireStoreDocument;
+
 use CodeIgniter\Controller;
 
 class BaseController extends Controller
@@ -14,6 +19,8 @@ class BaseController extends Controller
 	public $nomorku = "6289677249060@c.us";
 
 	// MODEL
+	protected $firestore;
+	protected $document;
 	protected $users;
 	protected $kategori;
 	protected $tags;
@@ -25,6 +32,11 @@ class BaseController extends Controller
 
 		$this->session       = \Config\Services::session();
 		$this->validation = \Config\Services::validation();
+
+		$this->firestore = new FireStoreApiClient(
+      'belajarsite-d3728', 'AIzaSyCmCOQ2Aa9mo3Bq-9GeY24OOrPkTlvjA54'
+    );
+    $this->document = new FireStoreDocument();
 
 		helper(['form', 'ini_helper']);
 
@@ -57,6 +69,27 @@ class BaseController extends Controller
 
 		$response  			= curl_exec($ch);
 		return $response;
+	}
+
+	function simsimi_curl($text)
+	{
+		$text = urlencode($text);
+		$ch = curl_init();
+
+		curl_setopt($ch, CURLOPT_URL, "https://api.simsimi.net/v1/?text=$text&lang=id");
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+		$headers = array();
+		$headers[] = 'Content-Type: application/json';
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+		$result = curl_exec($ch);
+		if (curl_errno($ch)) {
+				echo 'Error:' . curl_error($ch);
+		}
+		curl_close($ch);
+
+		return $result;
 	}
 
 	function sendMsg($no, $text)

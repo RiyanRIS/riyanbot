@@ -2,15 +2,12 @@
 
 namespace App\Controllers;
 
-include(__DIR__.'/../Libraries/firestore.php');
-
-use PHPFireStore\FireStoreApiClient;
-use PHPFireStore\FireStoreDocument;
-
 use \App\Models\WaSpamModel;
 use \App\Models\SettingModel;
 use \App\Models\FuserModel;
 use \App\Models\FquoteModel;
+
+use function GuzzleHttp\json_decode;
 
 class Wa extends BaseController
 {
@@ -47,11 +44,12 @@ class Wa extends BaseController
 			$no = $data['msg']['from'];
 			$text = $data['msg']['body'];
 
-			// $text = strtolower($text);
+			// Simi bales chat
+			$result = $this->simsimi_curl($text);
+			$result = \json_decode($result);
+			$jawaban_simi = $result->success;
 
-			// $text = \explode(" ", $text);
-
-      $this->sendMsg($no, $text);
+      $this->sendMsg($no, $jawaban_simi);
 		}
 	}
 

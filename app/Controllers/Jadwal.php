@@ -2,22 +2,12 @@
 
 namespace App\Controllers;
 
-include(__DIR__.'/../Libraries/firestore.php');
-
-use PHPFireStore\FireStoreApiClient;
-use PHPFireStore\FireStoreDocument;
 
 class Jadwal extends BaseController
 {
-  private $firestore;
-  private $document;
-
   function __construct()
   {
-    $this->firestore = new FireStoreApiClient(
-        'belajarsite-d3728', 'AIzaSyCmCOQ2Aa9mo3Bq-9GeY24OOrPkTlvjA54'
-    );
-    $this->document = new FireStoreDocument();
+    
   }
 
   public function getAll()
