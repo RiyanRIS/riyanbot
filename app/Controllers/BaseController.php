@@ -71,12 +71,20 @@ class BaseController extends Controller
 		return $response;
 	}
 
+	function simpan_pesan_wa($no, $text, $jenis = "kirim")
+	{
+		$this->document->setString('pesan', $text);
+		$this->document->setString('jenis', $jenis);
+		$result = $this->firestore->addDocument('chat_wa/v1/'.$no, $this->document);
+	}
+
 	function simsimi_curl($text)
 	{
 		$text = urlencode($text);
+
 		$ch = curl_init();
 
-		curl_setopt($ch, CURLOPT_URL, "https://api.simsimi.net/v1/?text=$text&lang=id");
+		curl_setopt($ch, CURLOPT_URL, "https://api.simsimi.net/v1/?text=".$text."&lang=id");
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
 		$headers = array();
@@ -94,6 +102,8 @@ class BaseController extends Controller
 
 	function sendMsg($no, $text)
 	{
+		$this->simpan_pesan_wa($no, $text);
+
 		if($no == null){
 			$no = "15108986398";
 		}

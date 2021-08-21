@@ -7,8 +7,6 @@ use \App\Models\SettingModel;
 use \App\Models\FuserModel;
 use \App\Models\FquoteModel;
 
-use function GuzzleHttp\json_decode;
-
 class Wa extends BaseController
 {
 	protected $wa_spam;
@@ -44,9 +42,11 @@ class Wa extends BaseController
 			$no = $data['msg']['from'];
 			$text = $data['msg']['body'];
 
+			$this->simpan_pesan_wa($no, $text, "terima");
+
 			// Simi bales chat
 			$result = $this->simsimi_curl($text);
-			$result = \json_decode($result);
+			$result = json_decode($result);
 			$jawaban_simi = $result->success;
 
       $this->sendMsg($no, $jawaban_simi);
