@@ -21,8 +21,6 @@ $routes->post('/bot', 'Bot::bot');
 
 $routes->get('/wa', 'Wa::index');
 
-$routes->post('/wa/change-status', 'Wa::getStatus');
-
 $routes->group('wa/user', function($routes)
 {
 	$routes->get('/', 'WaUser::index');

@@ -9,6 +9,8 @@ use \App\Models\TelChatModel;
 use \App\Models\TelChatStatusModel;
 use \App\Models\FquoteModel;
 
+use \App\Controllers\Jadwal;
+
 class Schedule extends BaseController
 {
   protected $bot;
@@ -65,9 +67,9 @@ class Schedule extends BaseController
 
   public function jadwal()
   {
-
+    $jadwal = new Jadwal();
     $data = $this->firestore->getCollection('jadwal');
-    $data = setDoc($data);
+    $data = $jadwal->toArrayJadwal($data);
 
     $a = time()+900;
     $b = time();

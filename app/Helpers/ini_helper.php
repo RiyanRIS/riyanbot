@@ -40,34 +40,6 @@ function slugify($text){
   return $text;
 }
 
-function setDoc($data)
-{
-  $res = []; $no = 0;
-
-  if(!isset($data->documents)){
-    return $res;
-  }
-
-  // JIKA COLLECTION KOSONG
-  if(count($data->documents) == 0){
-    return $res;
-  }
-  
-  foreach ($data->documents as $key) {
-    $res[$no]['id'] = getId($key->name);
-    $fields = $key->fields;
-    $res[$no]['pesan'] = getField($fields->pesan);
-    $res[$no]['jadwal'] = getField($fields->jadwal);
-    $res[$no]['tujuan'] = getField($fields->tujuan);
-    $res[$no]['tanggal'] = date("Y-m-d", getField($fields->jadwal));
-    $res[$no]['jam'] = date("H:i:s", getField($fields->jadwal));
-    $res[$no]['status'] = getField($fields->status);
-    $no++;
-  }
-
-  return $res;
-}
-
 function getId($data)
 {
   $res = '';

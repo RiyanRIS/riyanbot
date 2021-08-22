@@ -90,7 +90,7 @@
 
         request = $.ajax({
             type: 'GET', 
-            url: 'https://apifirebase.riyanris.my.id/api/quote/getall', 
+            url: '<?= site_url("quote/getall") ?>', 
             dataType: 'json'
         });
 
@@ -104,8 +104,8 @@
               htmls.push('<tr>\
               <td>' + quote + '</td>\
               <td>' + from + '</td>\
-              <td><button class="btn btn-warning updateData" data-id="' + value.id + '">Update</button>\
-              <button data-bs-toggle="modal" data-bs-target="#remove-modal" class="btn btn-danger removeData" data-id="' + value.id + '">Delete</button></td>\
+              <td><button class="btn btn-sm btn-warning updateData" data-id="' + value.id + '">Update</button>\
+              <button data-bs-toggle="modal" data-bs-target="#remove-modal" class="btn btn-danger btn-sm removeData" data-id="' + value.id + '">Delete</button></td>\
             </tr>');
             }
           });
@@ -129,7 +129,6 @@
       // Aksi Add
       $('#submitQuote').on('click', function () {
         event.preventDefault();
-        loadingg();
         iconadd.show();
 
         const values = $("#addQuote").serializeArray();
@@ -139,7 +138,7 @@
 
         request = $.ajax({
             type: 'POST',
-            url: "/wa/quote/add",
+            url: "<?= site_url("quote/add") ?>",
             dataType: 'json',
             data: {
               quote: quote,
@@ -148,12 +147,15 @@
         });
 
         request.done(function (response, textStatus, jqXHR){
-          console.log(response)
-          getTable();
+          if(response[0] == true){
+            $.notify("Data Berhasil Disimpan...", "success");
+            $("#addQuote input").val("");
+            $("#addQuote textarea").val("");
+            getTable();
+          }else{
+            $.notify(response[1], "error");
+          }
           iconadd.hide();
-          $("#addQuote input").val("");
-          $("#addQuote textarea").val("");
-          $.notify("Data Berhasil Disimpan...", "success");
         });
 
         request.fail(function (jqXHR, textStatus, errorThrown){
@@ -174,7 +176,6 @@
 
       // Aksi remove
       $('.deleteRecord').on('click', function () {
-          loadingg();
           $("#addQuote input").val("");
           $("#addQuote textarea").val("");
           icondel.show();
@@ -184,16 +185,19 @@
 
           request = $.ajax({
             type: 'POST',
-            url: "/wa/quote/del/"+id,
+            url: "<?= site_url("quote/del/") ?>"+id,
             dataType: 'json',
           });
 
           request.done(function (response, textStatus, jqXHR){
-            console.log(response)
-            getTable();
+            if(response[0] == true){
+              $.notify("Data Berhasil Dihapus...", "success");
+            }else{
+              $.notify(response[1], "error");
+            }
             $("#remove-modal").modal('hide');
+            getTable();
             icondel.hide();
-            $.notify("Data Berhasil Dihapus...", "success");
           });
 
           request.fail(function (jqXHR, textStatus, errorThrown){
@@ -225,7 +229,7 @@
 
         request = $.ajax({
             type: 'POST',
-            url: "/wa/quote/get/"+updateID,
+            url: "<?= site_url("quote/getbyid/") ?>"+updateID,
             dataType: 'json',
             timeout: 5000
         });
@@ -265,7 +269,6 @@
       // Aksi Update
       $('#btnUpdate').on('click', function () {
         event.preventDefault();
-        loadingg();
         iconupd.show();
 
         const values = $("#addQuote").serializeArray();
@@ -276,7 +279,7 @@
 
         request = $.ajax({
             type: 'POST',
-            url: "/wa/quote/upd",
+            url: "<?= site_url("quote/update") ?>",
             dataType: 'json',
             data: {
               id: id,
@@ -286,15 +289,18 @@
         });
 
         request.done(function (response, textStatus, jqXHR){
-          console.log(response)
-          getTable();
+          if(response[0] == true){
+            $("#addQuote input").val("");
+            $("#addQuote textarea").val("");
+            btnSubmit.show();
+            isupdate.hide();
+            judulForm.html('Add quote');
+            $.notify("Data Berhasil Diubah...", "success");
+            getTable();
+          }else{
+            $.notify(response[1], "error");
+          }
           iconupd.hide();
-          $("#addQuote input").val("");
-          $("#addQuote textarea").val("");
-          btnSubmit.show();
-          isupdate.hide();
-          judulForm.html('Add quote');
-          $.notify("Data Berhasil Diubah...", "success");
         });
 
         request.fail(function (jqXHR, textStatus, errorThrown){
@@ -323,7 +329,6 @@
       $("#btnTunggu").hide();
       loadingg();
       getTable();
-
     });
     </script>
 

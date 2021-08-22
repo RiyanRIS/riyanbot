@@ -2,18 +2,21 @@
 
 namespace App\Controllers;
 
-
 class Jadwal extends BaseController
 {
-  function __construct()
-  {
-    
-  }
+  function __construct(){}
+
+  public function index()
+	{
+    $data['nav'] = 'jadwal'; 
+		$data['title'] = 'Jadwal Model'; 
+    return view("wa/jadwal", $data);
+	}
 
   public function getAll()
   {
     $data = $this->firestore->getCollection('jadwal');
-    $data = json_encode(setDoc($data));
+    $data = json_encode($this->toArrayJadwal($data));
     return $data;
   }
 
@@ -34,13 +37,6 @@ class Jadwal extends BaseController
     $res['status'] = getField($data->fields->status);
 
     return json_encode($res);
-  }
-
-  function getField($data)
-  {
-    $res = '';
-    $res = $data->stringValue;
-    return $res;
   }
 
   public function add()
@@ -114,4 +110,32 @@ class Jadwal extends BaseController
       return json_encode([true, "Berhasil Menghapus Data"]);
     }
   }
+
+  public function toArrayJadwal($data)
+{
+  $res = []; $no = 0;
+
+  if(!isset($data->documents)){
+    return $res;
+  }
+
+  // JIKA COLLECTION KOSONG
+  if(count($data->documents) == 0){
+    return $res;
+  }
+
+  foreach ($data->documents as $key) {
+    $res[$no]['id'] = getId($key->name);
+    $fields = $key->fields;
+    $res[$no]['pesan'] = getField($fields->pesan);
+    $res[$no]['jadwal'] = getField($fields->jadwal);
+    $res[$no]['tujuan'] = getField($fields->tujuan);
+    $res[$no]['tanggal'] = date("Y-m-d", getField($fields->jadwal));
+    $res[$no]['jam'] = date("H:i:s", getField($fields->jadwal));
+    $res[$no]['status'] = getField($fields->status);
+    $no++;
+  }
+
+  return $res;
+}
 }

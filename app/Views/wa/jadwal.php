@@ -119,8 +119,8 @@
               <td>' + tujuan + '</td>\
               <td>' + jadwal + '</td>\
               <td>' + status + '</td>\
-              <td><button class="btn btn-warning updateData" data-id="' + value.id + '">Update</button>\
-              <button data-bs-toggle="modal" data-bs-target="#remove-modal" class="btn btn-danger removeData" data-id="' + value.id + '">Delete</button></td>\
+              <td><button class="btn btn-warning btn-sm updateData" data-id="' + value.id + '">Update</button>\
+              <button data-bs-toggle="modal" data-bs-target="#remove-modal" class="btn btn-danger btn-sm removeData" data-id="' + value.id + '">Delete</button></td>\
             </tr>');
             }
           });
@@ -318,7 +318,7 @@
             $("#addQuote textarea").val("");
             btnSubmit.show();
             isupdate.hide();
-            judulForm.html('Add quote');
+            judulForm.html('Add jadwal');
             $.notify("Data Berhasil Diubah...", "success");
             getTable();
           }else{
